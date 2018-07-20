@@ -2,6 +2,8 @@
 
 This is my attempt to make web app at CSSI
 
-#section
+#Group
+Gemma, Alex and Victor
 
-Section 1
+#Topic
+Creating an Discover Your Inpact app
