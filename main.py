@@ -3,13 +3,15 @@ import json
 import datetime
 import logging
 
-from google.appengine.api import memcache
+from google.appengine.api import ndb
 from google.appengine.api import users
 
 
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        result = {'url' : users.create_login_url('/')}
+        result = {
+        'url' : users.create_login_url('/')
+        }
         send_json(self, result)
 
 
@@ -26,7 +28,8 @@ class GetUserHandler(webapp2.RequestHandler):
             result['user'] = email
         else:
             result['error'] = 'User is not logged in.'
-        send_json(self, result)
+        print(Log.query().fetch())
+        
 
 
 def get_current_user_email():
@@ -36,6 +39,12 @@ def get_current_user_email():
     else:
         return None
 
+def get_current_user_distance():
+    current_distance = users.get_current_distance()
+    if current_distance:
+        return current_user.distance()
+    else:
+        return None
 
 class GetLogoutUrlHandler(webapp2.RequestHandler):
 	def dispatch(self):
@@ -67,6 +76,51 @@ class ViewHistoryHandler(webapp2.RequestHandler):
 	pass
 	
 	
+    def dispatch(self):
+        result = {
+        'url' : users.create_logout_url('/logout')
+        }
+        send_json(self, result)
+        
+        
+class Log(ndb.Model):
+    email = ndb.StringProperty(required=True)
+    distance = ndb.FloatProperty(required=True)
+    timestamp = ndb.StringProperty(required=True)
+    
+    def __init__(self, email, distance):
+             self.email = email
+             self.distance = distance
+             self.timestamp = datetime.datetime.now()
+    def to_dict(self):
+            log = {
+                'user': self.email,
+                'distance': self.distance,
+                'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S')
+            }
+            return log
+        
+class LogDataHandler(webapp2.RequestHandler):
+    def dispatch(self):
+        email = get_current_user_email()
+        distance = get_current_user_distance()
+        if email:
+        log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
+        if email:
+            result['data'] = []
+            messages = ndb.get('data')
+            for message in messages:
+                log['data'].append(data.to_dict())
+        else:
+                log['error'] = 'User is not logged in.'
+        log.put()
+
+class ViewReportHandler(webapp2.RequestHandler):
+    pass
+class ViewHistoryHandler(webapp2.RequestHandler):
+	pass
+	
+	
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
     ('/user', GetUserHandler),
@@ -74,5 +128,5 @@ app = webapp2.WSGIApplication([
     ('/logout', GetLogoutUrlHandler),
     ('/data', LogDataHandler),
     ('/report', ViewReportHandler),
-    ('/history', ViewHistoryHandler),
+    ('/history',ls ViewHistoryHandler),
 ],   debug=True)
