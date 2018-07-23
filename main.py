@@ -52,10 +52,10 @@ class Log(ndb.Model):
     distance = ndb.FloatProperty(required=True)
     timestamp = ndb.StringProperty(required=True)
     
-#     def __init__(self, email, distance):
-#             self.email = email
-#             self.distance = distance
-#             self.timestamp = datetime.datetime.now()
+    def __init__(self, email, distance):
+             self.email = email
+             self.distance = distance
+             self.timestamp = datetime.datetime.now()
     def to_dict(self):
             log = {
                 'user': self.email,
@@ -65,18 +65,18 @@ class Log(ndb.Model):
             return log
         
 class LogDataHandler(webapp2.RequestHandler):
-        def dispatch(self):
-            email = get_current_user_email()
-            if email:
-                log = Log(email=email, distance=10, timestamp=str(datetime.datetime.now()))
-                if email:
-                    result['data'] = []
-                    messages = ndb.get('data')
-                    for message in messages:
-                        log['data'].append(data.to_dict())
-                else:
-                    log['error'] = 'User is not logged in.'
-                log.put()
+    def dispatch(self):
+        email = get_current_user_email()
+        if email:
+        log = Log(email=email, distance=10, timestamp=str(datetime.datetime.now()))
+        if email:
+            result['data'] = []
+            messages = ndb.get('data')
+            for message in messages:
+                log['data'].append(data.to_dict())
+        else:
+                log['error'] = 'User is not logged in.'
+        log.put()
 
 class ViewReportHandler(webapp2.RequestHandler):
     pass
