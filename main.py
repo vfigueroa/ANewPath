@@ -3,7 +3,7 @@ import json
 import datetime
 import logging
 
-from google.appengine.api import ndb
+from google.appengine.ext import ndb
 from google.appengine.api import users
 
 
@@ -73,12 +73,9 @@ class ViewReportHandler(webapp2.RequestHandler):
 #			print('true')
 		print(co2_per_mile, distance, transportation, comment)
 class ViewHistoryHandler(webapp2.RequestHandler):
-	pass
-	
-	
     def dispatch(self):
         result = {
-        'url' : users.create_logout_url('/logout')
+            'url' : users.create_logout_url('/logout')
         }
         send_json(self, result)
         
@@ -101,26 +98,23 @@ class Log(ndb.Model):
             return log
         
 class LogDataHandler(webapp2.RequestHandler):
-    def dispatch(self):
+    def post(self):
         email = get_current_user_email()
-        distance = get_current_user_distance()
-        if email:
-        log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
-        if email:
-            result['data'] = []
-            messages = ndb.get('data')
-            for message in messages:
-                log['data'].append(data.to_dict())
-        else:
-                log['error'] = 'User is not logged in.'
-        log.put()
-
-class ViewReportHandler(webapp2.RequestHandler):
-    pass
-class ViewHistoryHandler(webapp2.RequestHandler):
+        distance = self.request.get('distance')
+        print distance
+#        if email:
+#            log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
+#        if email:
+#            result['data'] = []
+#            messages = ndb.get('data')
+#            for message in messages:
+#                log['data'].append(data.to_dict())
+#        else:
+#            log['error'] = 'User is not logged in.'
+#        log.put()
+        
+class ViewHistoryHandler():
 	pass
-	
-	
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
     ('/user', GetUserHandler),
@@ -128,5 +122,5 @@ app = webapp2.WSGIApplication([
     ('/logout', GetLogoutUrlHandler),
     ('/data', LogDataHandler),
     ('/report', ViewReportHandler),
-    ('/history',ls ViewHistoryHandler),
+    ('/history', ViewHistoryHandler),
 ],   debug=True)
