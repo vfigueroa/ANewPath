@@ -1,4 +1,4 @@
-# This is my CSSI Poject
+# This is my CSSI Project
 
 This is my attempt to make web app at CSSI
 
