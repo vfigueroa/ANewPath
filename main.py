@@ -44,3 +44,10 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
         'url' : users.create_logout_url('/logout')
         }
         send_json(self, result)
+        
+app = webapp2.WSGIApplication([
+    ('/', GetUserHandler),
+    ('/user', GetUserHandler),
+    ('/login', GetLoginUrlHandler),
+    ('/logout', GetLogoutUrlHandler)
+],   debug=True)
