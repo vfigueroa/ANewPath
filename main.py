@@ -2,13 +2,15 @@ import webapp2
 import json
 import datetime
 
-from google.appengine.api import memcache
+from google.appengine.api import ndb
 from google.appengine.api import users
 
 
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        result = {'url' : users.create_login_url('/')}
+        result = {
+        'url' : users.create_login_url('/')
+        }
         send_json(self, result)
 
 
@@ -25,7 +27,8 @@ class GetUserHandler(webapp2.RequestHandler):
             result['user'] = email
         else:
             result['error'] = 'User is not logged in.'
-        send_json(self, result)
+        print(Log.query().fetch())
+        
 
 
 def get_current_user_email():
@@ -44,17 +47,41 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
         send_json(self, result)
         
         
-class LogDataHandler(webapp2.RequestHandler):
-	def dispatch(self):
-		data = {}
-        
-        
-class ViewReportHandler(webapp2.RequestHandler):
-	pass
+class Log(ndb.Model):
+    email = ndb.StringProperty(required=True)
+    distance = ndb.FloatProperty(required=True)
+    timestamp = ndb.StringProperty(required=True)
     
+#     def __init__(self, email, distance):
+#             self.email = email
+#             self.distance = distance
+#             self.timestamp = datetime.datetime.now()
+    def to_dict(self):
+            log = {
+                'user': self.email,
+                'distance': self.distance,
+                'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S')
+            }
+            return log
+        
+class LogDataHandler(webapp2.RequestHandler):
+        def dispatch(self):
+            email = get_current_user_email()
+            if email:
+                log = Log(email=email, distance=10, timestamp=str(datetime.datetime.now()))
+                if email:
+                    result['data'] = []
+                    messages = ndb.get('data')
+                    for message in messages:
+                        log['data'].append(data.to_dict())
+                else:
+                    log['error'] = 'User is not logged in.'
+                log.put()
+
+class ViewReportHandler(webapp2.RequestHandler):
     
 class ViewHistoryHandler(webapp2.RequestHandler):
-	pass
+    
     
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
