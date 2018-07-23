@@ -52,65 +52,41 @@ def get_current_user_distance():
     else:
         return None
 
-class GetLogoutUrlHandler(webapp2.RequestHandler):
-	def get(self):
-		result = {
-		'url' : users.create_logout_url('/logout')
-		}
-		send_json(self, result)
-
-
-class LogDataHandler(webapp2.RequestHandler):
-	def get(self):
-		data = {}
-
 
 class ViewReportHandler(webapp2.RequestHandler):
-	def post(self):
-		mpg = float(self.request.get('mpg'))
-		distance = float(self.request.get('distance'))
-		transportation = self.request.get('way')
-		comment = self.request.get('comment')
-		co2_per_mile = 20.00 / mpg
-#		logs data to admin page even when deployed
-		logging.info(co2_per_mile)
-#		transportation and comment are both Unicode strings, unicode strings and str can be compared and return true
-#		if transportation == 'bike':
-#			print('true')
-		print(co2_per_mile, distance, transportation, comment)
+    def get(self):
+        email = get_current_user_email()
+        if email:
+            q = Log.query(Log.email == email)
+            log = q.get()
+            params = {'transportation': 'bike' ,'distance': log.distance}
+            
+            template = JINJA_ENVIRONMENT.get_template('templates/report.html')
+            self.response.write(template.render(params))
+            
+
+        
+
+class LogDataHandler(webapp2.RequestHandler):
+    def post(self):
+        email = get_current_user_email()
+        if email:
+#            mpg = float(self.request.get('mpg'))
+            distance = float(self.request.get('distance'))
+#            transportation = self.request.get('way')
+#            comment = self.request.get('comment')
+            #co2_per_mile = 20.00 / mpg
+            log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
+            log.put()
+            self.redirect('/report')
+        else:
+            log['error'] = 'User is not logged in.'
 
 class Log(ndb.Model):
     email = ndb.StringProperty(required=True)
     distance = ndb.FloatProperty(required=True)
     timestamp = ndb.StringProperty(required=True)
-
-    def __init__(self, email, distance):
-             self.email = email
-             self.distance = distance
-             self.timestamp = datetime.datetime.now()
-    def to_dict(self):
-            log = {
-                'user': self.email,
-                'distance': self.distance,
-                'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S')
-            }
-            return log
-
-class LogDataHandler(webapp2.RequestHandler):
-    def post(self):
-        email = get_current_user_email()
-        distance = self.request.get('distance')
-        print distance
-#        if email:
-#            log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
-#        if email:
-#            result['data'] = []
-#            messages = ndb.get('data')
-#            for message in messages:
-#                log['data'].append(data.to_dict())
-#        else:
-#            log['error'] = 'User is not logged in.'
-#        log.put()
+        
 
 class ViewHistoryHandler():
 	pass
@@ -119,7 +95,6 @@ app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
     ('/user', GetUserHandler),
     ('/login', GetLoginUrlHandler),
-    ('/logout', GetLogoutUrlHandler),
     ('/data', LogDataHandler),
     ('/report', ViewReportHandler),
     ('/history', ViewHistoryHandler),
