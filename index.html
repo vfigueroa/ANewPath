@@ -1,1 +1,13 @@
-
+function getUser() {
+  sendRequest('/user', function(result){
+    if (result.user) {
+      handleLoad();
+    } else {
+      sendRequest('/login', function(resut) {
+        var loginlink = '<a href=""' + result.url + '">Click Here to Log IN </a>"';
+        document.getElementById('messagearea').innerHTML = loginlink;
+      }, new Object());
+    }
+  }, new Object());
+}
+getUser();
