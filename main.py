@@ -79,9 +79,9 @@ class LogDataHandler(webapp2.RequestHandler):
                 log.put()
 
 class ViewReportHandler(webapp2.RequestHandler):
-    
+    pass
 class ViewHistoryHandler(webapp2.RequestHandler):
-    
+    pass
     
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
