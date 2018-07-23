@@ -45,6 +45,13 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
         }
         send_json(self, result)
         
+class LogDataHandler(webapp2.RequestHandler):
+    def dispatch(self):
+        data = {}
+class ViewReportHandler(webapp2.RequestHandler):
+    
+class ViewHistoryHandler(webapp2.RequestHandler):
+        
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
     ('/user', GetUserHandler),
