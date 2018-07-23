@@ -1,6 +1,7 @@
 import webapp2
 import json
 import datetime
+import logging
 
 from google.appengine.api import ndb
 from google.appengine.api import users
@@ -38,6 +39,12 @@ def get_current_user_email():
     else:
         return None
 
+def get_current_user_distance():
+    current_distance = users.get_current_distance()
+    if current_distance:
+        return current_user.distance()
+    else:
+        return None
 
 class GetLogoutUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
@@ -67,8 +74,9 @@ class Log(ndb.Model):
 class LogDataHandler(webapp2.RequestHandler):
     def dispatch(self):
         email = get_current_user_email()
+        distance = get_current_user_distance()
         if email:
-        log = Log(email=email, distance=10, timestamp=str(datetime.datetime.now()))
+        log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
         if email:
             result['data'] = []
             messages = ndb.get('data')
@@ -90,5 +98,5 @@ app = webapp2.WSGIApplication([
     ('/logout', GetLogoutUrlHandler),
     ('/data', LogDataHandler),
     ('/report', ViewReportHandler),
-    ('/history', ViewHistoryHandler),
+    ('/history',ls ViewHistoryHandler),
 ],   debug=True)
