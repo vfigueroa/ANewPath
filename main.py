@@ -49,5 +49,8 @@ app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
     ('/user', GetUserHandler),
     ('/login', GetLoginUrlHandler),
-    ('/logout', GetLogoutUrlHandler)
+    ('/logout', GetLogoutUrlHandler),
+    ('/data', LogDataHandler),
+    ('/report', ViewReportHandler),
+    ('/history', ViewHistoryHandler),
 ],   debug=True)
