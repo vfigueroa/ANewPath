@@ -1,6 +1,7 @@
 import webapp2
 import json
 import datetime
+import logging
 
 from google.appengine.api import memcache
 from google.appengine.api import users
@@ -37,25 +38,35 @@ def get_current_user_email():
 
 
 class GetLogoutUrlHandler(webapp2.RequestHandler):
-    def dispatch(self):
-        result = {
-        'url' : users.create_logout_url('/logout')
-        }
-        send_json(self, result)
-        
-        
+	def dispatch(self):
+		result = {
+		'url' : users.create_logout_url('/logout')
+		}
+		send_json(self, result)
+		
+		
 class LogDataHandler(webapp2.RequestHandler):
 	def dispatch(self):
 		data = {}
-        
-        
+		
+		
 class ViewReportHandler(webapp2.RequestHandler):
-	pass
-    
-    
+	def post(self):
+		mpg = float(self.request.get('mpg'))
+		distance = float(self.request.get('distance'))
+		transportation = self.request.get('way')
+		comment = self.request.get('comment')
+		co2_per_mile = 20.00 / mpg
+#		logs data to admin page even when deployed
+		logging.info(co2_per_mile)
+#		transportation and comment are both Unicode strings, unicode strings and str can be compared and return true
+#		if transportation == 'bike':
+#			print('true')
+		print(co2_per_mile, distance, transportation, comment)
 class ViewHistoryHandler(webapp2.RequestHandler):
 	pass
-    
+	
+	
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
     ('/user', GetUserHandler),
