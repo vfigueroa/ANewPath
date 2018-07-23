@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <script>
+    	/*eslint-disable no-new-object */
+    	function sendRequest(destinaionUrl, callbackFunction, parameters) {
+		  var xmlHttp = new XMLHttpRequest();
+		  xmlHttp.onreadystatechange = function() {
+		    if (xmlHttp.readyState === 4) {
+		      console.log("Response Text:\n" + xmlHttp.responseText);
+		      var result = JSON.parse(xmlHttp.responseText);
+		      if (result.error) {
+		        document.getElementById("errorarea").innerHTML = result.error;
+		      }
+		      callbackFunction(result);
+		    }
+	      }
+
+		  var paramString = '';
+		  for (var param in parameters) {
+		    paramString += param + '=' + escape(parameters[param]) + '&';
+		  }
+
+		  xmlHttp.open('POST', destinaionUrl);
+		  xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		  xmlHttp.send(paramString);
+		}
+		function getUser() {
+		  sendRequest('/user', function(result){
+		    if (result.user) {
+		      console.log('logged in');
+		      sendRequest('/logout', function(result) {
+		        var logoutlink = '<a href=' + result.url + '>Click Here to Log Out</a>';
+		        document.getElementById('messagearea').innerHTML = logoutlink;
+	     	  }, new Object());
+		    } else {
+		      sendRequest('/login', function(result) {
+		        var loginlink = '<a href=' + result.url + '>Click Here to Log In</a>';
+		        document.getElementById('messagearea').innerHTML = loginlink;
+		      }, new Object());
+		    }
+		  }, new Object());
+		}
+		getUser();
+	</script>
+  </head>
+  <body>
+    <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
+    <div id="messagearea"></div>
+    <input id = 'textfield'>
+    <input type="submit"  value="submit" >
+  </body>
+</html>

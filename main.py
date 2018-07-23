@@ -3,7 +3,7 @@ import json
 import datetime
 import logging
 
-from google.appengine.api import ndb
+from google.appengine.ext import ndb
 from google.appengine.api import users
 
 
@@ -29,7 +29,7 @@ class GetUserHandler(webapp2.RequestHandler):
         else:
             result['error'] = 'User is not logged in.'
         print(Log.query().fetch())
-        
+
 
 
 def get_current_user_email():
@@ -52,13 +52,13 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
 		'url' : users.create_logout_url('/logout')
 		}
 		send_json(self, result)
-		
-		
+
+
 class LogDataHandler(webapp2.RequestHandler):
 	def dispatch(self):
 		data = {}
-		
-		
+
+
 class ViewReportHandler(webapp2.RequestHandler):
 	def post(self):
 		mpg = float(self.request.get('mpg'))
@@ -73,21 +73,18 @@ class ViewReportHandler(webapp2.RequestHandler):
 #			print('true')
 		print(co2_per_mile, distance, transportation, comment)
 class ViewHistoryHandler(webapp2.RequestHandler):
-	pass
-	
-	
-    def dispatch(self):
+	def dispatch(self):
         result = {
         'url' : users.create_logout_url('/logout')
         }
         send_json(self, result)
-        
-        
+
+
 class Log(ndb.Model):
     email = ndb.StringProperty(required=True)
     distance = ndb.FloatProperty(required=True)
     timestamp = ndb.StringProperty(required=True)
-    
+
     def __init__(self, email, distance):
              self.email = email
              self.distance = distance
@@ -99,7 +96,7 @@ class Log(ndb.Model):
                 'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S')
             }
             return log
-        
+
 class LogDataHandler(webapp2.RequestHandler):
     def dispatch(self):
         email = get_current_user_email()
@@ -119,8 +116,8 @@ class ViewReportHandler(webapp2.RequestHandler):
     pass
 class ViewHistoryHandler(webapp2.RequestHandler):
 	pass
-	
-	
+
+
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
     ('/user', GetUserHandler),
