@@ -1,13 +1,43 @@
-function getUser() {
-  sendRequest('/user', function(result){
-    if (result.user) {
-      handleLoad();
-    } else {
-      sendRequest('/login', function(resut) {
-        var loginlink = '<a href=""' + result.url + '">Click Here to Log IN </a>"';
-        document.getElementById('messagearea').innerHTML = loginlink;
-      }, new Object());
-    }
-  }, new Object());
-}
-getUser();
+<html>
+  <head>
+    <script>
+    	function sendRequest(destinaionUrl, callbackFunction, parameters) {
+		  var xmlHttp = new XMLHttpRequest();
+		  xmlHttp.onreadystatechange = function() {
+		    if (xmlHttp.readyState === 4) {
+		      console.log("Response Text:\n" + xmlHttp.responseText);
+		      var result = JSON.parse(xmlHttp.responseText);
+		      if (result.error) {
+		        document.write(result.error);
+		      } else {
+		        callbackFunction(result);
+		        }
+		      }
+		    }
+		    var paramString = '';
+		    for (var param in parameters) {
+		      paramString += param + '=' + escape(parameters[param]) + '&';
+		    }
+		  xmlHttp.open('POST', destinaionUrl);
+		  xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		  console.log("We are about to send: " + paramString);
+		  console.log("We are sending to " + destinaionUrl);
+		  xmlHttp.send(paramString);
+		}
+		function getUser() {
+		  sendRequest('/user', function(result){
+		    if (result.user) {
+		      handleLoad();
+		    } else {
+		      sendRequest('/login', function(result) {
+		        var loginlink = '<a href=""' + result.url + '">Click Here to Log IN </a>"';
+		        document.getElementById('messagearea').innerHTML = loginlink;
+		      }, new Object());
+		    }
+		  }, new Object());
+		}
+		getUser();
+	</script>
+  </head>
+  <body> hello world
+</html>
