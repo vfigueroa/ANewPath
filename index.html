@@ -28,9 +28,13 @@
 		  sendRequest('/user', function(result){
 		    if (result.user) {
 		      console.log('logged in');
+		      sendRequest('/logout', function(result) {
+		        var logoutlink = '<a href=' + result.url + '>Click Here to Log Out</a>';
+		        document.getElementById('messagearea').innerHTML = logoutlink;
+	     	  }, new Object());
 		    } else {
 		      sendRequest('/login', function(result) {
-		        var loginlink = '<a href="' + result.url + '">Click Here to Log In</a>"';
+		        var loginlink = '<a href=' + result.url + '>Click Here to Log In</a>';
 		        document.getElementById('messagearea').innerHTML = loginlink;
 		      }, new Object());
 		    }
@@ -42,6 +46,7 @@
   <body>
     <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
     <div id="messagearea"></div>
-    <p>test</p>
+    <input id = 'textfield'>
+    <input type="submit"  value="submit" >
   </body>
 </html>

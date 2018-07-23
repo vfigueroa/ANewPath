@@ -8,9 +8,7 @@ from google.appengine.api import users
 
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        result = {
-        'url' : users.create_login_url('/')
-        }
+        result = {'url' : users.create_login_url('/')}
         send_json(self, result)
 
 
@@ -47,15 +45,16 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
         
         
 class LogDataHandler(webapp2.RequestHandler):
-    def dispatch(self):
-        data = {}
+	def dispatch(self):
+		data = {}
         
         
 class ViewReportHandler(webapp2.RequestHandler):
+	pass
     
     
 class ViewHistoryHandler(webapp2.RequestHandler):
-    
+	pass
     
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
