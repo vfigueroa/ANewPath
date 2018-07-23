@@ -6,7 +6,6 @@ from google.appengine.api import memcache
 from google.appengine.api import users
 
 
-
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
         result = {
@@ -30,6 +29,7 @@ class GetUserHandler(webapp2.RequestHandler):
             result['error'] = 'User is not logged in.'
         send_json(self, result)
 
+
 def get_current_user_email():
     current_user = users.get_current_user()
     if current_user:
@@ -44,7 +44,8 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
         'url' : users.create_logout_url('/logout')
         }
         send_json(self, result)
-        
+
+
 app = webapp2.WSGIApplication([
     ('/', GetUserHandler),
     ('/user', GetUserHandler),
