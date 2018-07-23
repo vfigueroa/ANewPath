@@ -2,26 +2,27 @@ import webapp2
 import json
 import datetime
 import logging
+import jinja2
+import os
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
-
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
+    
 class GetLoginUrlHandler(webapp2.RequestHandler):
-    def dispatch(self):
+    def get(self):
         result = {
         'url' : users.create_login_url('/')
         }
         send_json(self, result)
 
 
-def send_json(request_handler, props):
-    request_handler.response.content_type = 'application/json'
-    request_handler.response.out.write(json.dumps(props))
-
-
 class GetUserHandler(webapp2.RequestHandler):
-    def dispatch(self):
+    def get(self):
         email = get_current_user_email()
         result = {}
         if email:
@@ -29,6 +30,11 @@ class GetUserHandler(webapp2.RequestHandler):
         else:
             result['error'] = 'User is not logged in.'
         print(Log.query().fetch())
+        
+        params = {}
+        
+        template = JINJA_ENVIRONMENT.get_template('templates/index.html')
+        self.response.write(template.render(params))
 
 
 
@@ -47,7 +53,7 @@ def get_current_user_distance():
         return None
 
 class GetLogoutUrlHandler(webapp2.RequestHandler):
-	def dispatch(self):
+	def get(self):
 		result = {
 		'url' : users.create_logout_url('/logout')
 		}
@@ -55,7 +61,7 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
 
 
 class LogDataHandler(webapp2.RequestHandler):
-	def dispatch(self):
+	def get(self):
 		data = {}
 
 
@@ -72,13 +78,6 @@ class ViewReportHandler(webapp2.RequestHandler):
 #		if transportation == 'bike':
 #			print('true')
 		print(co2_per_mile, distance, transportation, comment)
-class ViewHistoryHandler(webapp2.RequestHandler):
-	def dispatch(self):
-        result = {
-            'url' : users.create_logout_url('/logout')
-        }
-        send_json(self, result)
-
 
 class Log(ndb.Model):
     email = ndb.StringProperty(required=True)
