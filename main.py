@@ -78,13 +78,20 @@ class LogDataHandler(webapp2.RequestHandler):
             transportation = self.request.get('way')
             comment = self.request.get('comment')
             co2 = 20.00 / mpg * distance
+            if transportation == "runing":
+                calories = distance * 100
+            elif transportation == "walking":
+                calories = distance * 75
+            elif transportation == "biking":
+                calories = distance * 40
             print co2
-            log = Log(email=email, transportation=transportation, co2=co2, distance=distance, timestamp=str(datetime.datetime.now()))
+            log = Log(email=email, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
             print log
             log.put()
             self.redirect('/report')
         else:
-            log['error'] = 'User is not logged in.'
+            self.redirect('/login')
+            #log['error'] = 'User is not logged in.'
 
 
 
@@ -98,7 +105,7 @@ class ViewReportHandler(webapp2.RequestHandler):
             
             log = q.get()
             if log:
-                params = {'transportation': log.transportation ,'distance': log.distance, 'co2': log.co2}
+                params = {'transportation': log.transportation ,'distance': log.distance,'calories': log.calories, 'co2': log.co2}
                 template = JINJA_ENVIRONMENT.get_template('templates/report.html')
                 self.response.write(template.render(params))
             else:
@@ -120,6 +127,7 @@ class Log(ndb.Model):
     timestamp = ndb.StringProperty(required=True)
     transportation = ndb.StringProperty(required=True)
     co2 = ndb.FloatProperty(required=True)
+    calories = ndb.FloatProperty(required=True)
 
     def to_dict(self):
         log = {
@@ -127,7 +135,8 @@ class Log(ndb.Model):
                 'distance': self.distance,
                 'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S'),
                 'transportation': self.transportation,
-                'co2': self.co2
+                'co2': self.co2,
+                'calories': self.calories
             }
         return log
 
