@@ -20,7 +20,6 @@ class GetLoginUrlHandler(webapp2.RequestHandler):
         }
         send_json(self, result)
 
-
 def send_json(request_handler, props):
     request_handler.response.content_type = 'application/json'
     request_handler.response.out.write(json.dumps(props))
@@ -53,6 +52,7 @@ def get_current_user_distance():
         return None
 
 
+
 class GetLogoutUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
         result = {
@@ -62,21 +62,41 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
         
         
 class LogDataHandler(webapp2.RequestHandler):
-    pass
-#    def dispatch(self):
-#        data = {}
-        
-        
+    def post(self):
+        email = get_current_user_email()
+        if email:
+#            mpg = float(self.request.get('mpg'))
+            distance = float(self.request.get('distance'))
+#            transportation = self.request.get('way')
+#            comment = self.request.get('comment')
+            #co2_per_mile = 20.00 / mpg
+            log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
+            log.put()
+            self.redirect('/report')
+        else:
+            log['error'] = 'User is not logged in.'
+
+
 class ViewReportHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
             q = Log.query(Log.email == email)
+            
             log = q.get()
-            params = {'transportation': 'bike' ,'distance': log.distance}
-
-            template = JINJA_ENVIRONMENT.get_template('templates/report.html')
-            self.response.write(template.render(params))
+            #params = {'transportation': 'bike' ,'distance': log.distance}
+            if log:
+                params = {'transportation': 'bike' ,'distance': log.distance}
+                template = JINJA_ENVIRONMENT.get_template('templates/report.html')
+                self.response.write(template.render(params))
+            else:
+                # redirect to the data form
+                self.redirect("/data")
+                print 'redirect to the data form'
+                pass
+        else:
+            print "redirect to login"
+            pass
 
 
 class LogDataHandler(webapp2.RequestHandler):
