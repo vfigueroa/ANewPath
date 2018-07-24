@@ -15,10 +15,11 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        result = {
-        'url' : users.create_login_url('/')
-        }
-        send_json(self, result)
+        self.redirect(users.create_login_url('/'))
+#        result = {
+#        'url' : users.create_login_url('/')
+#        }
+#        send_json(self, result)
 
 def send_json(request_handler, props):
     request_handler.response.content_type = 'application/json'
