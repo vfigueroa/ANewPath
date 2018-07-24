@@ -7,8 +7,11 @@ handlers:
 - url: /
   static_files: templates/index.html
   upload: index\.html
+- url: /stylesheets
+  static_dir: stylesheets
 - url: .*
   script: main.app
+
 
 libraries:
 - name: webapp2
