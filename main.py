@@ -70,7 +70,7 @@ class LogDataHandler(webapp2.RequestHandler):
             transportation = self.request.get('way')
             comment = self.request.get('comment')
             co2_per_mile = 20.00 / mpg
-            log = Log(email=email, disdevtance=distance, timestamp=str(datetime.datetime.now()))
+            log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
             log.put()
             self.redirect('/report')
         else:
@@ -122,10 +122,10 @@ class Log(ndb.Model):
     distance = ndb.FloatProperty(required=True)
     timestamp = ndb.StringProperty(required=True)
     
-    def __init__(self, email, distance):
-             self.email = email
-             self.distance = distance
-             self.timestamp = datetime.datetime.now()
+#    def __init__(self, email, distance):
+#             self.email = email
+#             self.distance = distance
+#             self.timestamp = datetime.datetime.now()
     def to_dict(self):
             log = {
                 'user': self.email,
