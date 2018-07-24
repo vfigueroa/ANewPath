@@ -91,7 +91,9 @@ class ViewReportHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
-            q = Log.query(Log.email == email)
+            q = Log.query().filter(Log.email == email).order(-Log.timestamp)
+            for item in q:
+                print item
             
             log = q.get()
             if log:
@@ -107,20 +109,6 @@ class ViewReportHandler(webapp2.RequestHandler):
             print "redirect to login"
             pass
 
-
-#class ViewReportHandler(webapp2.RequestHandler):
-#    def post(self):
-#        mpg = float(self.request.get('mpg'))
-#        distance = float(self.request.get('distance'))
-#        transportation = self.request.get('way')
-#        comment = self.request.get('comment')
-#        co2_per_mile = 20.00 / mpg
-#        #logs data to admin page even when deployed
-#        logging.info(co2_per_mile)
-#        #transportation and comment are both Unicode strings, unicode strings and str can be compared and return true
-#        #if transportation == 'bike':
-#            #print('true')
-#        print(co2_per_mile, distance, transportation, comment)
         
 class ViewHistoryHandler(webapp2.RequestHandler):
     pass
@@ -130,18 +118,15 @@ class Log(ndb.Model):
     distance = ndb.FloatProperty(required=True)
     timestamp = ndb.StringProperty(required=True)
     transportation = ndb.StringProperty(required=True)
-    
-#    def __init__(self, email, distance):
-#             self.email = email
-#             self.distance = distance
-#             self.timestamp = datetime.datetime.now()
+
     def to_dict(self):
-            log = {
+        log = {
                 'user': self.email,
                 'distance': self.distance,
-                'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S')
+                'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S'),
+                'transportation': self.transportation
             }
-            return log
+        return log
 
 app = webapp2.WSGIApplication([
 	('/', GetUserHandler),
