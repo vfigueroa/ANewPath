@@ -62,19 +62,20 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
         
         
 class LogDataHandler(webapp2.RequestHandler):
-    def post(self):
-        email = get_current_user_email()
-        if email:
+   def post(self):
+       email = get_current_user_email()
+       if email:
 #            mpg = float(self.request.get('mpg'))
             distance = float(self.request.get('distance'))
-#            transportation = self.request.get('way')
-#            comment = self.request.get('comment')
-            #co2_per_mile = 20.00 / mpg
-            log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
-            log.put()
-            self.redirect('/report')
-        else:
-            log['error'] = 'User is not logged in.'
+            transportation = self.request.get('way')
+            comment = self.request.get('comment')
+           #co2_per_mile = 20.00 / mpg
+           log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
+           log.put()
+           self.redirect('/report')
+       else:
+           log['error'] = 'User is not logged in.'
+
 
 
 class ViewReportHandler(webapp2.RequestHandler):
