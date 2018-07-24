@@ -3,7 +3,7 @@ import json
 import datetime
 import logging
 
-from google.appengine.api import ndb
+from google.appengine.ext import ndb
 from google.appengine.api import users
 
 
@@ -46,36 +46,8 @@ def get_current_user_distance():
     else:
         return None
 
+
 class GetLogoutUrlHandler(webapp2.RequestHandler):
-	def dispatch(self):
-		result = {
-		'url' : users.create_logout_url('/logout')
-		}
-		send_json(self, result)
-		
-		
-class LogDataHandler(webapp2.RequestHandler):
-	def dispatch(self):
-		data = {}
-		
-		
-class ViewReportHandler(webapp2.RequestHandler):
-	def post(self):
-		mpg = float(self.request.get('mpg'))
-		distance = float(self.request.get('distance'))
-		transportation = self.request.get('way')
-		comment = self.request.get('comment')
-		co2_per_mile = 20.00 / mpg
-#		logs data to admin page even when deployed
-		logging.info(co2_per_mile)
-#		transportation and comment are both Unicode strings, unicode strings and str can be compared and return true
-#		if transportation == 'bike':
-#			print('true')
-		print(co2_per_mile, distance, transportation, comment)
-class ViewHistoryHandler(webapp2.RequestHandler):
-	pass
-	
-	
     def dispatch(self):
         result = {
         'url' : users.create_logout_url('/logout')
@@ -83,6 +55,36 @@ class ViewHistoryHandler(webapp2.RequestHandler):
         send_json(self, result)
         
         
+class LogDataHandler(webapp2.RequestHandler):
+    pass
+#    def dispatch(self):
+#        data = {}
+        
+        
+class ViewReportHandler(webapp2.RequestHandler):
+    def post(self):
+        mpg = float(self.request.get('mpg'))
+        distance = float(self.request.get('distance'))
+        transportation = self.request.get('way')
+        comment = self.request.get('comment')
+        co2_per_mile = 20.00 / mpg
+        #logs data to admin page even when deployed
+        logging.info(co2_per_mile)
+        #transportation and comment are both Unicode strings, unicode strings and str can be compared and return true
+        #if transportation == 'bike':
+            #print('true')
+        print(co2_per_mile, distance, transportation, comment)
+class ViewHistoryHandler(webapp2.RequestHandler):
+    pass
+    
+    
+    def dispatch(self):
+        result = {
+        'url' : users.create_logout_url('/logout')
+        }
+        send_json(self, result)
+        
+
 class Log(ndb.Model):
     email = ndb.StringProperty(required=True)
     distance = ndb.FloatProperty(required=True)
@@ -101,32 +103,35 @@ class Log(ndb.Model):
             return log
         
 class LogDataHandler(webapp2.RequestHandler):
-    def dispatch(self):
-        email = get_current_user_email()
-        distance = get_current_user_distance()
-        if email:
-        log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
-        if email:
-            result['data'] = []
-            messages = ndb.get('data')
-            for message in messages:
-                log['data'].append(data.to_dict())
-        else:
-                log['error'] = 'User is not logged in.'
-        log.put()
+	def dispatch(self):
+	   pass
+#		email = get_current_user_email()
+#		distance = get_current_user_distance()
+#		if email:
+#			log = Log(email=email, distance=distance, timestamp=str(datetime.datetime.now()))
+#		if email:
+#			result['data'] = []
+#			messages = ndb.get('data')
+#		for message in messages:
+#				log['data'].append(data.to_dict())
+#		else:
+#			log['error'] = 'User is not logged in.'
+#		log.put()
 
 class ViewReportHandler(webapp2.RequestHandler):
-    pass
+	pass
+	
+	
 class ViewHistoryHandler(webapp2.RequestHandler):
 	pass
 	
 	
 app = webapp2.WSGIApplication([
-    ('/', GetUserHandler),
-    ('/user', GetUserHandler),
-    ('/login', GetLoginUrlHandler),
-    ('/logout', GetLogoutUrlHandler),
-    ('/data', LogDataHandler),
-    ('/report', ViewReportHandler),
-    ('/history',ls ViewHistoryHandler),
-],   debug=True)
+	('/', GetUserHandler),
+	('/user', GetUserHandler),
+	('/login', GetLoginUrlHandler),
+	('/logout', GetLogoutUrlHandler),
+	('/data', LogDataHandler),
+	('/report', ViewReportHandler),
+	('/history', ViewHistoryHandler),
+], debug=True)
