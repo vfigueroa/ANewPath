@@ -77,8 +77,9 @@ class LogDataHandler(webapp2.RequestHandler):
             distance = float(self.request.get('distance'))
             transportation = self.request.get('way')
             comment = self.request.get('comment')
-            co2_per_mile = 20.00 / mpg
-            log = Log(email=email, transportation=transportation, distance=distance, timestamp=str(datetime.datetime.now()))
+            co2 = 20.00 / mpg * distance
+            print co2
+            log = Log(email=email, transportation=transportation, co2=co2, distance=distance, timestamp=str(datetime.datetime.now()))
             print log
             log.put()
             self.redirect('/report')
@@ -92,12 +93,12 @@ class ViewReportHandler(webapp2.RequestHandler):
         email = get_current_user_email()
         if email:
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
-            for item in q:
-                print item
+#            for item in q:
+#                print item
             
             log = q.get()
             if log:
-                params = {'transportation': log.transportation ,'distance': log.distance}
+                params = {'transportation': log.transportation ,'distance': log.distance, 'co2': log.co2}
                 template = JINJA_ENVIRONMENT.get_template('templates/report.html')
                 self.response.write(template.render(params))
             else:
@@ -118,13 +119,15 @@ class Log(ndb.Model):
     distance = ndb.FloatProperty(required=True)
     timestamp = ndb.StringProperty(required=True)
     transportation = ndb.StringProperty(required=True)
+    co2 = ndb.FloatProperty(required=True)
 
     def to_dict(self):
         log = {
                 'user': self.email,
                 'distance': self.distance,
                 'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S'),
-                'transportation': self.transportation
+                'transportation': self.transportation,
+                'co2': self.co2
             }
         return log
 
