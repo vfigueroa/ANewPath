@@ -1,5 +1,30 @@
 <html>
   <head>
+    <style>
+      ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #334;
+      }
+
+      li {
+          float: left;
+      }
+
+      li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+      }
+
+      li a:hover {
+          background-color: #111;
+      }
+    </style>
     <script>
     	/*eslint-disable no-new-object */
     	/*function sendRequest(destinaionUrl, callbackFunction, parameters) {
@@ -44,6 +69,11 @@
 	</script>
   </head>
   <body>
+    <ul style="float:center">
+      <li><a class="active" href="/">HOME</a></li>
+      <li><a href="/report">STATS</a></li>
+      <li ><a href="/login">FAQ</a></li>
+    </ul>
     <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
     <div id="messagearea"></div>
     <form action ="/data" method="post">
