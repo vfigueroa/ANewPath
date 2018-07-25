@@ -25,7 +25,6 @@ def send_json(request_handler, props):
     request_handler.response.content_type = 'application/json'
     request_handler.response.out.write(json.dumps(props))
 
-
 class GetUserHandler(webapp2.RequestHandler):
     def dispatch(self):
         email = get_current_user_email()
@@ -65,7 +64,6 @@ def get_current_user_transportation():
         return current_user.transportation()
     else:
         return None
-
 
 
 class GetLogoutUrlHandler(webapp2.RequestHandler):
@@ -133,18 +131,11 @@ class ViewHistoryHandler(webapp2.RequestHandler): #refer to Tim's code in how he
         email = get_current_user_email()
         if email:
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
-            # for item in q:
-            #     self.response.write("<br>")
-            #     self.response.write(str(item.distance))
             template = JINJA_ENVIRONMENT.get_template('templates/history.html')
             self.response.write(template.render(history=q))
         else:
             print "hi"
     #add in other attributes of the Log class
-
-# class ViewChatHandler(webapp2.RequestHandler):
-#     pass
-#
 
 class Log(ndb.Model):
     email = ndb.StringProperty(required=True)
@@ -153,6 +144,11 @@ class Log(ndb.Model):
     transportation = ndb.StringProperty(required=True)
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
+
+# class Msg(ndb.Model):
+#     email = ndb.StringProperty(required=True)
+#     text = ndb.StringProperty(required=True)
+#
 
     def to_dict(self):
         log = {
