@@ -70,3 +70,11 @@ tr:nth-child(even) {
     width: 250px;
 }
 
+form {
+    /*background-image: url(https://images.pexels.com/photos/56875/tree-dawn-nature-bucovina-56875.jpeg?auto=compress&cs=tinysrgb&h=350);
+    width: 500px;
+    height: 300px;
+    border: 5px solid #c3c3c3;
+    */
+   font-size: 30px;
+}
