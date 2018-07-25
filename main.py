@@ -91,6 +91,8 @@ class LogDataHandler(webapp2.RequestHandler):
                 calories = distance * 75
             elif transportation == "biking":
                 calories = distance * 40
+            else:
+                calories = 0
             print co2
             log = Log(email=email, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
             print log
@@ -125,8 +127,7 @@ class ViewReportHandler(webapp2.RequestHandler):
             pass
 
 
-class ViewHistoryHandler(webapp2.RequestHandler): #refer to Tim's code in how he
-#stored all the data instead of looping through the entire query
+class ViewHistoryHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
@@ -150,6 +151,17 @@ class Log(ndb.Model):
 #     text = ndb.StringProperty(required=True)
 #
 
+class ViewChatHandler(ndb.Model):
+    def get(self):
+        email = get_current_user_email()
+        if email:
+            q = Log.query().fetch(10).order(-Log.timestamp)
+            for item in q:
+                self.response.write("<br>")
+                self.response.write(item)
+            # template = JINJA_ENVIRONMENT.get_template('templates/history.html')
+            # self.response.write(template.render(history=q, email=email))
+
     def to_dict(self):
         log = {
                 'user': self.email,
@@ -170,5 +182,5 @@ app = webapp2.WSGIApplication([
 	('/data', LogDataHandler),
 	('/report', ViewReportHandler), #view your most recent accomplishment
 	('/history', ViewHistoryHandler), #views all the progress
-    #('/chat', ViewChatHandler)
+    ('/chat', ViewChatHandler)
 ], debug=True)

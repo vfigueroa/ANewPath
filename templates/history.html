@@ -1,11 +1,16 @@
 <html>
   <head>
+    <style>
+      
+    </style>
   </head>
   <body>
   {% include 'templates/nav.html' %}
     <ul id="history">
     {% for item in history %}
-        <li><a href="{{ item.href }}"> you went {{item.distance}} by {{ item.transportation }}</a></li>
+        <br>
+        <li> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp}}</li>
+        </br>
     {% endfor %}
     <!-- maybe we could share or show the route that you took this by linking it to another page. ??-->
     </ul>
