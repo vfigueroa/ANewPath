@@ -2,11 +2,12 @@
   <head>
   </head>
   <body>
+  {% include 'templates/nav.html' %}
     <ul id="history">
     {% for item in history %}
         <li><a href="{{ item.href }}"> you went {{item.distance}} by {{ item.transportation }}</a></li>
     {% endfor %}
-    <!-- maybe we could share this by linking it to another page. ??-->
+    <!-- maybe we could share or show the route that you took this by linking it to another page. ??-->
     </ul>
   </body>
 </html>

@@ -15,7 +15,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        self.redirect(users.create_login_url('/'))
+        self.redirect(users.create_login_url('/home'))
 #        result = {
 #        'url' : users.create_login_url('/')
 #        }
@@ -24,7 +24,6 @@ class GetLoginUrlHandler(webapp2.RequestHandler):
 def send_json(request_handler, props):
     request_handler.response.content_type = 'application/json'
     request_handler.response.out.write(json.dumps(props))
-
 
 class GetUserHandler(webapp2.RequestHandler):
     def dispatch(self):
@@ -67,10 +66,9 @@ def get_current_user_transportation():
         return None
 
 
-
 class GetLogoutUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        self.redirect(users.create_logout_url('/'))
+        self.redirect(users.create_logout_url('/home'))
 #        result = {
 #        'url' : users.create_logout_url('/logout')
 #        }
@@ -114,7 +112,7 @@ class ViewReportHandler(webapp2.RequestHandler):
 
             log = q.get()
             if log:
-                params = {'transportation': log.transportation ,'distance': log.distance,'calories': log.calories, 'co2': log.co2}
+                params = {'transportation': log.transportation ,'distance': log.distance,'calories': log.calories, 'co2': log.co2, 'email': email}
                 template = JINJA_ENVIRONMENT.get_template('templates/report.html')
                 self.response.write(template.render(params))
             else:
@@ -133,18 +131,11 @@ class ViewHistoryHandler(webapp2.RequestHandler): #refer to Tim's code in how he
         email = get_current_user_email()
         if email:
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
-            # for item in q:
-            #     self.response.write("<br>")
-            #     self.response.write(str(item.distance))
             template = JINJA_ENVIRONMENT.get_template('templates/history.html')
-            self.response.write(template.render(history=q))
+            self.response.write(template.render(history=q, email=email))
         else:
             print "hi"
     #add in other attributes of the Log class
-
-# class ViewChatHandler(webapp2.RequestHandler):
-#     pass
-#
 
 class Log(ndb.Model):
     email = ndb.StringProperty(required=True)
@@ -153,6 +144,11 @@ class Log(ndb.Model):
     transportation = ndb.StringProperty(required=True)
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
+
+# class Msg(ndb.Model):
+#     email = ndb.StringProperty(required=True)
+#     text = ndb.StringProperty(required=True)
+#
 
     def to_dict(self):
         log = {
