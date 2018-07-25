@@ -84,8 +84,8 @@ class LogDataHandler(webapp2.RequestHandler):
             distance = float(self.request.get('distance'))
             transportation = self.request.get('way')
             comment = self.request.get('comment')
-            co2 = 20.00 / mpg * distance
-            if transportation == "runing":
+            co2 = round(20.00 / mpg * distance, 2)
+            if transportation == "running":
                 calories = distance * 100
             elif transportation == "walking":
                 calories = distance * 75
@@ -94,8 +94,9 @@ class LogDataHandler(webapp2.RequestHandler):
             else:
                 calories = 0
             print co2
+            #print co2
             log = Log(email=email, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
-            print log
+            #print log
             log.put()
             self.redirect('/report')
         else:
