@@ -35,8 +35,15 @@ class GetUserHandler(webapp2.RequestHandler):
         else:
             result['error'] = 'User is not logged in.'
         print(Log.query().fetch())
-
-
+        
+        
+class GetHomePageHandler(webapp2.RequestHandler):
+    def get(self):
+        email = get_current_user_email()
+        print 'this renders the jinja template'
+        template = JINJA_ENVIRONMENT.get_template('templates/index.html')
+        self.response.write(template.render(email=email))
+        
 
 def get_current_user_email():
     current_user = users.get_current_user()
@@ -144,6 +151,7 @@ class Log(ndb.Model):
 
 app = webapp2.WSGIApplication([
 	('/', GetUserHandler),
+	('/home', GetHomePageHandler),
 	('/user', GetUserHandler),
 	('/login', GetLoginUrlHandler),
 	('/logout', GetLogoutUrlHandler),
