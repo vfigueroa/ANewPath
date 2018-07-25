@@ -2,5 +2,18 @@
   <head>
   </head>
   <body>
+    {% include 'templates/nav.html' %}
+      <ul id="feed">
+      {% for item in feed %}
+          <br>
+          <li> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp}}</li>
+          </br>
+          <form>
+            Comment: <br>
+            <input type="text" name="Comment">
+          </form>
+      {% endfor %}
+      <!-- maybe we could share or show the route that you took this by linking it to another page. ??-->
+      </ul>
   </body>
 </html>
