@@ -2,6 +2,7 @@
   <head>
   </head>
   <body>
+  {% include 'templates/nav.html' %}
     <ul id="history">
     {% for item in history %}
         <li><a href="{{ item.href }}"> you went {{item.distance}} by {{ item.transportation }}</a></li>

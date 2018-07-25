@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>Your Impact</title>
+	</head>
+	<body>
+	   <table style="width:100%">
+          <tr>
+            <th>Email</th>
+            <th>Distance</th>
+            <th>Mode of Transportation</th>
+            <th>Pounds for CO2 prevented</th>
+            <th>Calories Burned</th>
+          </tr>
+          {%for entry in log %}
+          <tr>
+            <th>{% log.email%}</th>
+            <th>{% log.distance%}</th>
+            <th>{% log.transportation%}</th>
+            <th>{% log.co2%}</th>
+            <th>{% log.clories%}</th>
+            {% endfor %}
+          </tr>
+        </table>
+		{%for entry in history %}
+		  
+	</body>
+</html>
