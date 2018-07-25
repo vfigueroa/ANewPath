@@ -3,7 +3,9 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #334;
+    background-color: DarkSeaGreen;
+    font-family: 'Oswald', sans-serif;
+    font-size: 25px;
 }
 
 li {
@@ -19,5 +21,21 @@ li a {
 }
 
 li a:hover {
-    background-color: #111;
+    background-color: DarkGreen;
+}
+
+body{
+    background-color: Honeydew;
+}
+
+h1{
+    font-family: 'Oswald', sans-serif;
+    font-size: 75px
+}
+
+p{
+    font-family: 'Amatic SC', cursive;
+    border-left: 7px solid DarkSeaGreen;
+    background-color: ivory;
+    font-size: 30px;
 }
