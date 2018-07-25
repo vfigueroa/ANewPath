@@ -39,7 +39,6 @@ class GetUserHandler(webapp2.RequestHandler):
 class GetHomePageHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
-        print 'this renders the jinja template'
         template = JINJA_ENVIRONMENT.get_template('templates/index.html')
         self.response.write(template.render(email=email))
 
@@ -147,21 +146,16 @@ class Log(ndb.Model):
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
 
-# class Msg(ndb.Model):
-#     email = ndb.StringProperty(required=True)
-#     text = ndb.StringProperty(required=True)
-#
-
 class ViewFeedHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
             q = Log.query().order(-Log.timestamp).fetch(10)
-            for item in q:
-                self.response.write("<br>")
-                self.response.write(item)
-            # template = JINJA_ENVIRONMENT.get_template('templates/history.html')
-            # self.response.write(template.render(history=q, email=email))
+            # for item in q:
+            #     self.response.write("<br>")
+            #     self.response.write(item)
+            template = JINJA_ENVIRONMENT.get_template('templates/chat.html')
+            self.response.write(template.render(feed=q, email=email))
 
     def to_dict(self):
         log = {
