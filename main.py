@@ -91,9 +91,11 @@ class LogDataHandler(webapp2.RequestHandler):
                 calories = distance * 75
             elif transportation == "biking":
                 calories = distance * 40
-            print co2
+            else:
+                calories = 0
+            #print co2
             log = Log(email=email, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
-            print log
+            #print log
             log.put()
             self.redirect('/report')
         else:
