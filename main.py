@@ -63,10 +63,11 @@ def get_current_user_transportation():
 
 class GetLogoutUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        result = {
-        'url' : users.create_logout_url('/logout')
-        }
-        send_json(self, result)
+        self.redirect(users.create_logout_url('/'))
+#        result = {
+#        'url' : users.create_logout_url('/logout')
+#        }
+#        send_json(self, result)
         
         
 class LogDataHandler(webapp2.RequestHandler):
