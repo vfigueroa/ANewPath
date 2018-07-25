@@ -151,11 +151,11 @@ class Log(ndb.Model):
 #     text = ndb.StringProperty(required=True)
 #
 
-class ViewChatHandler(ndb.Model):
+class ViewChatHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
-            q = Log.query().fetch(10).order(-Log.timestamp)
+            q = Log.query().order(-Log.timestamp).fetch(10)
             for item in q:
                 self.response.write("<br>")
                 self.response.write(item)
@@ -182,5 +182,5 @@ app = webapp2.WSGIApplication([
 	('/data', LogDataHandler),
 	('/report', ViewReportHandler), #view your most recent accomplishment
 	('/history', ViewHistoryHandler), #views all the progress
-    ('/chat', ViewChatHandler)
+    ('/chat', ViewChatHandler),
 ], debug=True)
