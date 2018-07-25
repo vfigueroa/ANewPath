@@ -15,7 +15,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        self.redirect(users.create_login_url('/'))
+        self.redirect(users.create_login_url('/home'))
 #        result = {
 #        'url' : users.create_login_url('/')
 #        }
@@ -68,7 +68,7 @@ def get_current_user_transportation():
 
 class GetLogoutUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        self.redirect(users.create_logout_url('/'))
+        self.redirect(users.create_logout_url('/home'))
 #        result = {
 #        'url' : users.create_logout_url('/logout')
 #        }
@@ -112,7 +112,7 @@ class ViewReportHandler(webapp2.RequestHandler):
 
             log = q.get()
             if log:
-                params = {'transportation': log.transportation ,'distance': log.distance,'calories': log.calories, 'co2': log.co2}
+                params = {'transportation': log.transportation ,'distance': log.distance,'calories': log.calories, 'co2': log.co2, 'email': email}
                 template = JINJA_ENVIRONMENT.get_template('templates/report.html')
                 self.response.write(template.render(params))
             else:
@@ -132,7 +132,7 @@ class ViewHistoryHandler(webapp2.RequestHandler): #refer to Tim's code in how he
         if email:
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
             template = JINJA_ENVIRONMENT.get_template('templates/history.html')
-            self.response.write(template.render(history=q))
+            self.response.write(template.render(history=q, email=email))
         else:
             print "hi"
     #add in other attributes of the Log class
