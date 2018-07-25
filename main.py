@@ -37,6 +37,13 @@ class GetUserHandler(webapp2.RequestHandler):
         print(Log.query().fetch())
 
 
+class GetHomePageHandler(webapp2.RequestHandler):
+    def get(self):
+        email = get_current_user_email()
+        print 'this renders the jinja template'
+        template = JINJA_ENVIRONMENT.get_template('templates/index.html')
+        self.response.write(template.render(email=email))
+
 
 def get_current_user_email():
     current_user = users.get_current_user()
@@ -63,10 +70,11 @@ def get_current_user_transportation():
 
 class GetLogoutUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
-        result = {
-        'url' : users.create_logout_url('/logout')
-        }
-        send_json(self, result)
+        self.redirect(users.create_logout_url('/'))
+#        result = {
+#        'url' : users.create_logout_url('/logout')
+#        }
+#        send_json(self, result)
 
 
 class LogDataHandler(webapp2.RequestHandler):
@@ -158,7 +166,8 @@ class Log(ndb.Model):
         return log
 
 app = webapp2.WSGIApplication([
-	('/', GetUserHandler),#home page
+	('/', GetUserHandler),
+	('/home', GetHomePageHandler),
 	('/user', GetUserHandler),
 	('/login', GetLoginUrlHandler),
 	('/logout', GetLogoutUrlHandler),

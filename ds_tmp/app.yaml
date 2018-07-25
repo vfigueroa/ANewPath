@@ -1,0 +1,11 @@
+runtime: python27
+api_version: 1
+threasafe: yes
+
+handlers:
+- url: /.*
+  script: main.py
+  
+libraries:
+- name: webbapp2
+  version: latest
