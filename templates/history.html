@@ -1,0 +1,12 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <ul id="history">
+    {% for item in history %}
+        <li><a href="{{ item.href }}"> you went {{item.distance}} by {{ item.transportation }}</a></li>
+    {% endfor %}
+    <!-- maybe we could share this by linking it to another page. ??-->
+    </ul>
+  </body>
+</html>

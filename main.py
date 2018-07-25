@@ -51,7 +51,7 @@ def get_current_user_distance():
         return current_user.distance()
     else:
         return None
-        
+
 def get_current_user_transportation():
     current_transportation = users.get_current_transportation()
     if current_transportation:
@@ -67,8 +67,8 @@ class GetLogoutUrlHandler(webapp2.RequestHandler):
         'url' : users.create_logout_url('/logout')
         }
         send_json(self, result)
-        
-        
+
+
 class LogDataHandler(webapp2.RequestHandler):
     def post(self):
         email = get_current_user_email()
@@ -103,7 +103,7 @@ class ViewReportHandler(webapp2.RequestHandler):
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
 #            for item in q:
 #                print item
-            
+
             log = q.get()
             if log:
                 params = {'transportation': log.transportation ,'distance': log.distance,'calories': log.calories, 'co2': log.co2}
@@ -118,9 +118,25 @@ class ViewReportHandler(webapp2.RequestHandler):
             print "redirect to login"
             pass
 
-        
-class ViewHistoryHandler(webapp2.RequestHandler):
-    pass
+
+class ViewHistoryHandler(webapp2.RequestHandler): #refer to Tim's code in how he
+#stored all the data instead of looping through the entire query
+    def get(self):
+        email = get_current_user_email()
+        if email:
+            q = Log.query().filter(Log.email == email).order(-Log.timestamp)
+            # for item in q:
+            #     self.response.write("<br>")
+            #     self.response.write(str(item.distance))
+            template = JINJA_ENVIRONMENT.get_template('templates/history.html')
+            self.response.write(template.render(history=q))
+        else:
+            print "hi"
+    #add in other attributes of the Log class
+
+# class ViewChatHandler(webapp2.RequestHandler):
+#     pass
+#
 
 class Log(ndb.Model):
     email = ndb.StringProperty(required=True)
@@ -142,11 +158,12 @@ class Log(ndb.Model):
         return log
 
 app = webapp2.WSGIApplication([
-	('/', GetUserHandler),
+	('/', GetUserHandler),#home page
 	('/user', GetUserHandler),
 	('/login', GetLoginUrlHandler),
 	('/logout', GetLogoutUrlHandler),
 	('/data', LogDataHandler),
-	('/report', ViewReportHandler),
-	('/history', ViewHistoryHandler),
+	('/report', ViewReportHandler), #view your most recent accomplishment
+	('/history', ViewHistoryHandler), #views all the progress
+    #('/chat', ViewChatHandler)
 ], debug=True)
