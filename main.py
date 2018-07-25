@@ -152,7 +152,7 @@ class Log(ndb.Model):
 #     text = ndb.StringProperty(required=True)
 #
 
-class ViewChatHandler(webapp2.RequestHandler):
+class ViewFeedHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
@@ -183,5 +183,5 @@ app = webapp2.WSGIApplication([
 	('/data', LogDataHandler),
 	('/report', ViewReportHandler), #view your most recent accomplishment
 	('/history', ViewHistoryHandler), #views all the progress
-    ('/chat', ViewChatHandler),
+    ('/feed', ViewFeedHandler),
 ], debug=True)
