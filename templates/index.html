@@ -92,12 +92,14 @@
     <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
     <div id="messagearea"></div>
     <form id="form" action ="/data" method="post">
-      <input type="number" name="mpg" min="10" placeholder="Your Car's MPG"><br>
-      <input type="number" name="distance" min="0" step=".1" placeholder="Distance"><br>
-  	  <input type="radio" name="way" value="walking"> Walk<br>
-  	  <input type="radio" name="way" value="biking"> Bike<br>
-  	  <input type="radio" name="way" value="running"> Run<br>
-  	  <textarea type="text" name="comment" placeholder="Add a comment"></textarea><br>
+      <input type="number" required=true name="mpg" min="10" placeholder="Your Car's MPG"><br>
+      <input type="number" required=true name="distance" min="0" step=".1" placeholder="Distance"><br>
+      <div id="radio">
+        <input type="radio" name="way" value="walking" checked=true> Walk <br>
+  	    <input type="radio" name="way" value="biking"> Bike <br>
+  	    <input type="radio" name="way" value="running"> Run <br>
+      </div>
+  	  <textarea type="text" required=true name="comment" placeholder="Add a comment"></textarea><br>
   	  <input id="button" type="submit" value="Submit">
   	</form>
   </body>

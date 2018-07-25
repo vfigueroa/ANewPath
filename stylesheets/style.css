@@ -38,7 +38,7 @@ h1{
 p{
     font-family: 'Oswald', sans-serif;
     border: 7px solid DarkSeaGreen;
-        border-width:5px;  
+        border-width:5px;
         border-style:outset;
     background: 5px;
         background-color: Ivory;
@@ -63,18 +63,23 @@ tr:nth-child(even) {
 }
 
 #form {
-    margin-left: 45%;
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 30px;
+    color: black;
+    font-weight: bold;
+    background-image: url(https://images.pexels.com/photos/56875/tree-dawn-nature-bucovina-56875.jpeg?auto=compress&cs=tinysrgb&h=350);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 750px 600px;
+    border: 5px solid #000;
+    text-align: center;
+}
+#radio {
+  text-align: left;
+  padding-left: 25px;
 }
 
 #logo {
     width: 250px;
-}
-
-form {
-    /*background-image: url(https://images.pexels.com/photos/56875/tree-dawn-nature-bucovina-56875.jpeg?auto=compress&cs=tinysrgb&h=350);
-    width: 500px;
-    height: 300px;
-    border: 5px solid #c3c3c3;
-    */
-   font-size: 30px;
 }
