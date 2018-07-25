@@ -1,4 +1,4 @@
-ul {
+nav {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -20,7 +20,7 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
+a:hover {
     background-color: DarkGreen;
 }
 
@@ -28,16 +28,22 @@ body{
     background-color: Honeydew;
 }
 
+
 h1{
-    font-family: 'Oswald', sans-serif;
-    font-size: 75px
+    font-family: 'Amatic SC', cursive;
+    font-size: 86px;
+    text-align: center;
 }
 
 p{
-    font-family: 'Amatic SC', cursive;
-    border-left: 7px solid DarkSeaGreen;
-    background-color: ivory;
-    font-size: 30px;
+    font-family: 'Oswald', sans-serif;
+    border: 7px solid DarkSeaGreen;
+        border-width:5px;  
+        border-style:outset;
+    background: 5px;
+        background-color: Ivory;
+    font-size: 25px;
+    text-align: center;
 }
 
 table {
@@ -55,3 +61,12 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+#form {
+    margin-left: 45%;
+}
+
+#logo {
+    width: 250px;
+}
+

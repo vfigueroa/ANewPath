@@ -54,7 +54,7 @@
   </head>
   <body>
   {% block nav %}
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" href="#">Discover Your Impact</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -83,18 +83,18 @@
       <li ><a href="/logout">Logout</a></li>
     </ul>
     -->
-    <h1>DISCOVER YOUR IMPACT.</h1>
-    <p>Welcome message.</p>
+    <h1><img id="logo" src="images/logo.png">A NEW PATH</h1>
+    <p>The average passenger vehicle emits nearly 4.6 metric tons of carbon dioxide each year.</p>
     <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
     <div id="messagearea"></div>
-    <form action ="/data" method="post">
+    <form id="form" action ="/data" method="post">
       <input type="number" name="mpg" min="10" placeholder="Your Car's MPG"><br>
       <input type="number" name="distance" placeholder="Distance"><br>
   	  <input type="radio" name="way" value="walking"> walk<br>
   	  <input type="radio" name="way" value="biking"> bike<br>
   	  <input type="radio" name="way" value="running"> run<br>
   	  <textarea type="text" name="comment" placeholder="Add a comment"></textarea><br>
-  	  <input type="submit" value="Submit">
+  	  <input id="button" type="submit" value="Submit">
   	</form>
   </body>
 </html>

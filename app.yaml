@@ -6,6 +6,8 @@ threadsafe: yes
 handlers:
 - url: /stylesheets
   static_dir: stylesheets
+- url: /images
+  static_dir: images
 - url: /
   static_files: templates/index.html
   upload: index\.html
