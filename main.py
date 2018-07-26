@@ -16,10 +16,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
         self.redirect(users.create_login_url('/home'))
-#        result = {
-#        'url' : users.create_login_url('/')
-#        }
-#        send_json(self, result)
+
 
 def send_json(request_handler, props):
     request_handler.response.content_type = 'application/json'
@@ -68,10 +65,6 @@ def get_current_user_transportation():
 class GetLogoutUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
         self.redirect(users.create_logout_url('/home'))
-#        result = {
-#        'url' : users.create_logout_url('/logout')
-#        }
-#        send_json(self, result)
 
 
 class LogDataHandler(webapp2.RequestHandler):
@@ -92,16 +85,13 @@ class LogDataHandler(webapp2.RequestHandler):
                 calories = distance * 40
             else:
                 calories = 0
-            print co2
             #print co2
-            log = Log(email=email, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
+            log = Log(email=email, comment=comment, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
             #print log
             log.put()
             self.redirect('/report')
         else:
             self.redirect('/login')
-            #log['error'] = 'User is not logged in.'
-
 
 
 class ViewReportHandler(webapp2.RequestHandler):
@@ -109,12 +99,9 @@ class ViewReportHandler(webapp2.RequestHandler):
         email = get_current_user_email()
         if email:
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
-#            for item in q:
-#                print item
-
             log = q.get()
             if log:
-                params = {'transportation': log.transportation ,'distance': log.distance,'calories': log.calories, 'co2': log.co2, 'email': email}
+                params = {'transportation': log.transportation, 'comment': log.comment, 'timestamp': log.timestamp, 'distance': log.distance,'calories': log.calories, 'co2': log.co2, 'email': email}
                 template = JINJA_ENVIRONMENT.get_template('templates/report.html')
                 self.response.write(template.render(params))
             else:
@@ -145,6 +132,7 @@ class Log(ndb.Model):
     transportation = ndb.StringProperty(required=True)
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
+    comment = ndb.StringProperty(required=True)
 
 class Comment(ndb.Model):
     email = ndb.StringProperty(required=True)
@@ -170,7 +158,8 @@ class ViewFeedHandler(webapp2.RequestHandler):
                 'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S'),
                 'transportation': self.transportation,
                 'co2': self.co2,
-                'calories': self.calories
+                'calories': self.calories,
+                'comment': self.comment
             }
         return log
 
