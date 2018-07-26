@@ -1,4 +1,5 @@
 <html>
+  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   <head>
   </head>
   <body>
@@ -6,10 +7,10 @@
       <ul id="feed">
       {% for item in feed %}
           <br>
-          <li> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp[0:16]}}</li>
+          <li style="font-family: 'Oswald', sans-serif;font-size: 20px;"> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp[0:16]}}</li>
           </br>
-          <form>
-            Comment: <br>
+          <form style="font-family: 'Oswald', sans-serif;font-size: 15px;">
+            <br>Comment:
             <input type="text" name="Comment">
           </form>
       {% endfor %}
