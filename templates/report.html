@@ -4,9 +4,55 @@
 	</head>
 	<link rel=stylesheet type="text/css" href=/stylesheets/style.css>
 	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<body>
 	{% include 'templates/nav.html' %}
 
-		<p style="margin: 150px;"> Hey {{email}} you helped saved the world by {{transportation}} for {{distance}} miles. Driving your car would have produced {{co2}} pounds of CO2.	You also burned {{calories}} calories and saved ${{cost}} by {{transportation}}. Your comment was: {{comment}}</p>
+		<p style="margin: 150px;"> Hey {{email}} you helped saved the world by {{transportation}} for {{distance}} miles. Driving your car would have produced {{co2}} pounds of CO2.		You also burned {{calories}} calories by {{transportation}}. Your comment was: {{comment}}</p><br>
+
+			<h1 style="font-family: 'Amatic SC', cursive; font-size:50px;">Share:</h1><br>
+		<div1>
+			<style>
+			.fa {
+			  padding: 20px;
+			  font-size: 30px;
+			  width: 70px;
+			  text-align: center;
+			  text-decoration: none;
+			  margin-left: 300px;
+			}
+
+			.fa:hover {
+			    opacity: 0.7;
+					background-color: Silver;
+			}
+
+			.fa-facebook {
+			  background: #3B5998;
+			  color: white;
+				border-radius: 30%
+			}
+
+			.fa-twitter {
+			  background: #55ACEE;
+			  color: white;
+				border-radius: 30%
+			}
+
+			.fa-google {
+			  background: #dd4b39;
+			  color: white;
+				border-radius: 30%
+			}
+			</style>
+
+			<body>
+			<a href="#" class="fa fa-facebook" target="_blank" onclick="location.href='https://www.facebook.com/sharer/sharer.php?u=google.com&quote=I%27ve%20joined%20A%20New%20Path!';"></a>
+			<a href="#" class="fa fa-twitter" target="_blank" onclick="location.href='https://twitter.com/intent/tweet?text=I%27ve%20joined%20A%20New%20Path!';"></a>
+			<a href="#" class="fa fa-google" target="_blank" onclick="location.href='https://plus.google.com/share?text=I%27ve%20joined%20A%20New%20Path!';"></a>
+			</body>
+		</div1>
 	</body>
 </html>
