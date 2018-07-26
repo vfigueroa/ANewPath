@@ -90,6 +90,7 @@ class LogDataHandler(webapp2.RequestHandler):
             transportation = self.request.get('way')
             comment = self.request.get('comment')
             co2 = round(20.00 / mpg * distance, 2)
+            cost = float(self.request.get('cost')) * (distance / mpg)
             if transportation == "running":
                 calories = distance * 100
             elif transportation == "walking":
@@ -99,7 +100,7 @@ class LogDataHandler(webapp2.RequestHandler):
             else:
                 calories = 0
             #print co2
-            log = Log(email=email, comment=comment, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
+            log = Log(email=email, comment=comment, transportation=transportation, cost= cost, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
             #print log
             log.put()
             self.redirect('/report')
@@ -114,7 +115,7 @@ class ViewReportHandler(webapp2.RequestHandler):
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
             log = q.get()
             if log:
-                params = {'transportation': log.transportation, 'comment': log.comment, 'timestamp': log.timestamp, 'distance': log.distance,'calories': log.calories, 'co2': log.co2, 'email': email}
+                params = {'transportation': log.transportation, 'comment': log.comment, 'timestamp': log.timestamp, 'distance': log.distance,'calories': log.calories, 'cost': log.cost, 'co2': log.co2, 'email': email}
                 template = JINJA_ENVIRONMENT.get_template('templates/report.html')
                 self.response.write(template.render(params))
             else:
@@ -146,6 +147,7 @@ class Log(ndb.Model):
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
     comment = ndb.StringProperty(required=True)
+    cost = ndb.FloatProperty(required=True)
 
 class ViewFeedHandler(webapp2.RequestHandler):
     def get(self):
@@ -166,7 +168,8 @@ class ViewFeedHandler(webapp2.RequestHandler):
                 'transportation': self.transportation,
                 'co2': self.co2,
                 'calories': self.calories,
-                'comment': self.comment
+                'comment': self.comment,
+                'cost': self.cost
             }
         return log
 

@@ -21,14 +21,20 @@
 
     {% if add %}
     <form id="form" action ="/data" method="post">
-      <input type="number" name="mpg" min="10" placeholder="Your Car's MPG"><br>
-      <input type="number" name="distance" min="0" step=".1" placeholder="Distance"><br>
+      <input type="number" required name="mpg" min="10" placeholder="Your Car's MPG"><br>
+      <input type="number" required name="distance" min=".1" step=".1" placeholder="Distance"><br>
+      <input type="number" required name="cost" min=".01" step=".01" placeholder="Cost per Gallon of Gas"><br>
       <div id='radio'>
-  	     <input type="radio" name="way" value="walking"> Walk<br>
-  	     <input type="radio" name="way" value="biking"> Bike<br>
-  	     <input type="radio" name="way" value="running"> Run<br>
+        <select name="way" required form="form">
+  	     <option value="walking"> Walk</option><br>
+  	     <option value="biking"> Bike</option><br>
+  	     <option value="running"> Run</option><br>
+         <option value="taking the train"> Train</option><br>
+         <option value="taking the bus"> Bus</option><br>
+         <option value="carpooling"> Carpooling</option><br>
+        </select>
       </div>
-  	  <textarea type="text" name="comment" placeholder="Add a comment"></textarea><br>
+  	  <textarea type="text" required name="comment" placeholder="Add a comment"></textarea><br>
   	  <input id="button" type="submit" value="Submit">
   	</form>
     {% else %}
