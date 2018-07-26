@@ -4,11 +4,8 @@ import datetime
 import logging
 import jinja2
 import os
-<<<<<<< HEAD
 import time
-=======
 from time import sleep
->>>>>>> 39f078994d80c2d12ef59b08300a47555f511576
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
@@ -158,13 +155,9 @@ class Log(ndb.Model):
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
     comment = ndb.StringProperty(required=True)
-<<<<<<< HEAD
     #user_comments = ndb.KeyProperty(
       #Comment, repeated=True)
-
-=======
     cost = ndb.FloatProperty(required=True)
->>>>>>> 39f078994d80c2d12ef59b08300a47555f511576
 
 class ViewFeedHandler(webapp2.RequestHandler):
     def get(self):
