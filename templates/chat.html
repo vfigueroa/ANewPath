@@ -1,6 +1,34 @@
 <html>
   <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   <head>
+    <script>
+    // function sendRequest(destinationUrl, callbackFunction, parameters){
+    //   var xmlHttp = new XMLHttpRequest(); //use it to send requests browser's brower
+    //   xmlHttp.onreadystatechange = function(){ //overriding the method
+    //     if(xmlHttp.readyState ==4){
+    //       var result = JSON.parse(xmlHttp.responseText); //converting it into an object
+    //       if (result.error){
+    //         document.write(result.error);
+    //       } else{
+    //         callbackFunction(result);
+    //         }
+    //       }
+    //     }
+    //
+    //     var paramString = "";
+    //     for(var param in parameters){
+    //       paramString += param + "=" + escape(parameters[param]) + "&";
+    //     }
+    //   xmlHttp.open("POST", destinationUrl);
+    //   xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //   xmlHttp.send(paramString);
+    // }
+    //
+    // function handleSend(){
+    //   var parameters = new Object();
+    //   parameters['text']='text'
+    // }
+    </script>
   </head>
   <body>
     {% include 'templates/nav.html' %}
@@ -9,9 +37,25 @@
           <br>
           <li style="font-family: 'Oswald', sans-serif;font-size: 20px;"> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp[0:16]}}</li>
           </br>
+<<<<<<< HEAD
+          <ul id="commentBlock-{{item.key.id()}}">
+          {% for comment in comments%}
+            {% if comment.logId == item.key.id()|string %}
+            <li> {{comment.email}} said {{comment.text}}</li>
+            <br>
+            {% endif %}
+          {% endfor %}
+        </ul>
+          <form method="post">
+            Comment: <br>
+            <input id="comment{{item.key.id()}}" type="text" name="text">
+            <input type="hidden" name="logId" value="{{item.key.id()}}">
+            <input type="submit" value="Enter">
+=======
           <form style="font-family: 'Oswald', sans-serif;font-size: 15px;">
             <br>Comment:
             <input type="text" name="Comment">
+>>>>>>> 39f078994d80c2d12ef59b08300a47555f511576
           </form>
       {% endfor %}
       <!-- maybe we could share or show the route that you took this by linking it to another page. ??-->
