@@ -18,7 +18,7 @@
   <body>
     {% include 'templates/nav.html'%}
     <h1><img id="logo" src="images/logo.png" alt="logo">A NEW PATH</h1>
-    <p id='quote'>"WE WON'T HAVE A SOCIETY IF WE DESTROY THE ENVIRONMENT"</br>-Margaret Mead</p><br>
+
     {% if add %}
     <form id="form" action ="/data" method="post">
       <input type="number" name="mpg" min="10" placeholder="Your Car's MPG"><br>
@@ -32,6 +32,7 @@
   	  <input id="button" type="submit" value="Submit">
   	</form>
     {% else %}
+    <p id="quote">"We won't have a society if we destroy the environment."</br>-Margaret Mead</p><br>
     <img id="footprints" src="images/footprints.gif" alt="logo"><br>
     <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
     <div id="messagearea"></div>
@@ -67,7 +68,14 @@
     <br>
     <div class="container">
       <img src="images/background.png" alt="bg" style="width:100%;opacity: 0.5;border-radius: 75%">
-    <div class="centered" id="tips">test</div>
+
+    <div class="centered" id="tips">TIPS:
+        <ul>
+          <li>Discover safe pathways and routes to your destination beforehand</li>
+          <li>Purchase a pair of comfortable shoes</li>
+          <li>If your workplace or school is too far, try carpooling with others</li>
+        </ul>
+      </div>
     </div>
     {% endif %}
   </body>
