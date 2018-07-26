@@ -127,13 +127,16 @@ p1{
 }
 
 #form {
+    background-image: url('https://images.pexels.com/photos/56875/tree-dawn-nature-bucovina-56875.jpeg?auto=compress&cs=tinysrgb&h=350');
     background-size: 750px 600px;
     border: 5px solid #000;
     text-align: center;
     max-width: 750px;
+    font-size: 30px;
  }
 
  #radio {
    text-align: left;
    padding-left: 25px;
+   color: black;
 }
