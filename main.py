@@ -34,7 +34,9 @@ class GetUserHandler(webapp2.RequestHandler):
 
 class GetAboutPage(webapp2.RequestHandler):
     def dispatch(self):
+        email = get_current_user_email()
         template = JINJA_ENVIRONMENT.get_template('templates/about.html')
+        self.response.write(template.render(email=email))
 
 
 class GetHomePageHandler(webapp2.RequestHandler):
