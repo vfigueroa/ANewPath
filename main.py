@@ -146,10 +146,16 @@ class Log(ndb.Model):
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
 
+class Comment(ndb.Model):
+    email = ndb.StringProperty(required=True)
+    text = ndb.StringProperty(required=True)
+    timestamp = ndb.StringProperty(required=True)
+
 class ViewFeedHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
+            
             q = Log.query().order(-Log.timestamp).fetch(10)
             # for item in q:
             #     self.response.write("<br>")
