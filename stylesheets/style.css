@@ -20,7 +20,7 @@ li a {
     text-decoration: none;
 }
 
-a:hover {
+.nav-link:hover {
     background-color: DarkGreen;
 }
 

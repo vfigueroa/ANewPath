@@ -41,7 +41,7 @@
           {% for comment in comments%}
             {% if comment.logId == item.key.id()|string %}
             <br>
-            <li> {{comment.email}} said {{comment.text}}</li>
+            <li> {{comment.email}} said: {{comment.text}}</li>
             <br>
             {% endif %}
           {% endfor %}
