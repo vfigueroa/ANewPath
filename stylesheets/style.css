@@ -31,19 +31,27 @@ body{
 
 h1{
     font-family: 'Amatic SC', cursive;
-    font-size: 86px;
+    font-size: 100px;
     text-align: center;
 }
 
 p{
     font-family: 'Oswald', sans-serif;
     border: 7px solid DarkSeaGreen;
-        border-width:5px;  
+        border-width:5px;
         border-style:outset;
+        border-radius: 25px;
     background: 5px;
         background-color: Ivory;
     font-size: 25px;
     text-align: center;
+    margin: 0px 250px;
+}
+
+h2{
+  font-family: 'Amatic SC', cursive;
+  font-size: 50px;
+  text-align: center;
 }
 
 table {
@@ -63,11 +71,49 @@ tr:nth-child(even) {
 }
 
 #form {
-    margin-left: 45%;
+  margin-left: 45%;
 }
 
 #logo {
-    width: 250px;
+  width: 250px;
+}
+
+#footprints {
+  height: 500px;
+  margin-left: 280px;
+  margin-right: 150px;
+}
+
+p1{
+  font-family: 'Amatic SC', cursive;
+  color: black;
+  font-size: 30px;
+}
+#butt1 {
+  background-color: Gold;
+}
+#butt2 {
+  background-color: Tomato;
+}
+#butt3 {
+  background-color: CornflowerBlue;
+}
+
+.w3-btn {
+  background-color: DarkSeaGreen;
+  font-family: 'Oswald', sans-serif;
+  font-size: 25px;
+}
+
+.w3-btn:hover {
+  background-color: DarkGreen;
+}
+
+#tips{
+  color: black;
+  font-size: 50px;
+  font-weight: bold;
+  font-family: 'Amatic SC', cursive;
 }
 
 form {
