@@ -4,6 +4,7 @@ import datetime
 import logging
 import jinja2
 import os
+import time
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
@@ -124,6 +125,11 @@ class ViewHistoryHandler(webapp2.RequestHandler):
         else:
             print "hi"
     #add in other attributes of the Log class
+class Comment(ndb.Model):
+    email = ndb.StringProperty(required=True)
+    text = ndb.StringProperty(required=True)
+    timestamp = ndb.StringProperty(required=True)
+    logId = ndb.StringProperty(required=True)
 
 class Log(ndb.Model):
     email = ndb.StringProperty(required=True)
@@ -133,23 +139,41 @@ class Log(ndb.Model):
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
     comment = ndb.StringProperty(required=True)
+    #user_comments = ndb.KeyProperty(
+      #Comment, repeated=True)
 
-class Comment(ndb.Model):
-    email = ndb.StringProperty(required=True)
-    text = ndb.StringProperty(required=True)
-    timestamp = ndb.StringProperty(required=True)
 
 class ViewFeedHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
-            
+            q1 = Comment.query().order(-Log.timestamp).fetch()
+            log=q1
+            for comments in q1:
+                if log:
+                    # params = {'Email': comments.email, 'Text': comments.text, 'timestamp': comments.timestamp, 'Comment':shsjfhhsjdfj.comment}
+                    template = JINJA_ENVIRONMENT.get_template('templates/chat.html')
+                    # self.response.write(comments.text)
+                    # print comments.key.id()
             q = Log.query().order(-Log.timestamp).fetch(10)
             # for item in q:
             #     self.response.write("<br>")
             #     self.response.write(item)
             template = JINJA_ENVIRONMENT.get_template('templates/chat.html')
-            self.response.write(template.render(feed=q, email=email))
+            self.response.write(template.render(feed=q, email=email, comments=q1))
+    def post(self):
+        email = get_current_user_email()
+        if email:
+            text = str(self.request.get('text'))
+            logId = self.request.get("logId")
+            #log = Log.get_by_id(logId)
+            #log = q.get()
+            comment = Comment(email=email, text=text, timestamp=str(datetime.datetime.now()), logId=logId)
+            comment.put()
+            #log.user_comments.append(comment.key)
+            #self.response.write(comment.email +" said "+ comment.text)
+        time.sleep(3)
+        self.redirect("/feed")
 
     def to_dict(self):
         log = {
@@ -163,6 +187,15 @@ class ViewFeedHandler(webapp2.RequestHandler):
             }
         return log
 
+# class CommentDataHandler(webapp2.RequestHandler):
+#     def dispatch(self):
+#         email = get_current_user_email()
+#         if email:
+#             text = str(self.request.get('text'))
+#             logId = self.request.get("logId")
+#             comment = Comment(email=email, text=text, timestamp=str(datetime.datetime.now()), logId=logId)
+#             comment.put()
+
 app = webapp2.WSGIApplication([
 	('/', GetUserHandler),
 	('/home', GetHomePageHandler),
@@ -172,5 +205,6 @@ app = webapp2.WSGIApplication([
 	('/data', LogDataHandler),
 	('/report', ViewReportHandler), #view your most recent accomplishment
 	('/history', ViewHistoryHandler), #views all the progress
-    ('/feed', ViewFeedHandler),
+    ('/feed', ViewFeedHandler), #how do you add separate comment threads to each post
+    #('/comment', CommentDataHandler)
 ], debug=True)
