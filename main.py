@@ -4,7 +4,11 @@ import datetime
 import logging
 import jinja2
 import os
+<<<<<<< HEAD
 import time
+=======
+from time import sleep
+>>>>>>> 39f078994d80c2d12ef59b08300a47555f511576
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
@@ -33,12 +37,25 @@ class GetUserHandler(webapp2.RequestHandler):
             result['error'] = 'User is not logged in.'
         print(Log.query().fetch())
 
+class GetAboutPage(webapp2.RequestHandler):
+    def dispatch(self):
+        email = get_current_user_email()
+        template = JINJA_ENVIRONMENT.get_template('templates/about.html')
+        self.response.write(template.render(email=email))
+
 
 class GetHomePageHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         template = JINJA_ENVIRONMENT.get_template('templates/index.html')
-        self.response.write(template.render(email=email))
+        self.response.write(template.render(email=email, add=False))
+
+
+class GetAddPageHandler(webapp2.RequestHandler):
+    def get(self):
+        email = get_current_user_email()
+        template = JINJA_ENVIRONMENT.get_template('templates/index.html')
+        self.response.write(template.render(email=email, add=True))
 
 
 def get_current_user_email():
@@ -78,6 +95,7 @@ class LogDataHandler(webapp2.RequestHandler):
             transportation = self.request.get('way')
             comment = self.request.get('comment')
             co2 = round(20.00 / mpg * distance, 2)
+            cost = round(float(self.request.get('cost')) * (distance / mpg), 2)
             if transportation == "running":
                 calories = distance * 100
             elif transportation == "walking":
@@ -87,9 +105,10 @@ class LogDataHandler(webapp2.RequestHandler):
             else:
                 calories = 0
             #print co2
-            log = Log(email=email, comment=comment, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
+            log = Log(email=email, comment=comment, transportation=transportation, cost= cost, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
             #print log
             log.put()
+            sleep(.5)
             self.redirect('/report')
         else:
             self.redirect('/login')
@@ -102,12 +121,12 @@ class ViewReportHandler(webapp2.RequestHandler):
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
             log = q.get()
             if log:
-                params = {'transportation': log.transportation, 'comment': log.comment, 'timestamp': log.timestamp, 'distance': log.distance,'calories': log.calories, 'co2': log.co2, 'email': email}
+                params = {'transportation': log.transportation, 'comment': log.comment, 'timestamp': log.timestamp, 'distance': log.distance,'calories': log.calories, 'cost': log.cost, 'co2': log.co2, 'email': email}
                 template = JINJA_ENVIRONMENT.get_template('templates/report.html')
                 self.response.write(template.render(params))
             else:
                 # redirect to the data form
-                self.redirect("/data")
+                self.redirect("/add")
                 print 'redirect to the data form'
                 pass
         else:
@@ -139,9 +158,13 @@ class Log(ndb.Model):
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
     comment = ndb.StringProperty(required=True)
+<<<<<<< HEAD
     #user_comments = ndb.KeyProperty(
       #Comment, repeated=True)
 
+=======
+    cost = ndb.FloatProperty(required=True)
+>>>>>>> 39f078994d80c2d12ef59b08300a47555f511576
 
 class ViewFeedHandler(webapp2.RequestHandler):
     def get(self):
@@ -183,7 +206,8 @@ class ViewFeedHandler(webapp2.RequestHandler):
                 'transportation': self.transportation,
                 'co2': self.co2,
                 'calories': self.calories,
-                'comment': self.comment
+                'comment': self.comment,
+                'cost': self.cost
             }
         return log
 
@@ -199,6 +223,8 @@ class ViewFeedHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
 	('/', GetUserHandler),
 	('/home', GetHomePageHandler),
+    ('/about', GetAboutPage),
+    ('/add', GetAddPageHandler),
 	('/user', GetUserHandler),
 	('/login', GetLoginUrlHandler),
 	('/logout', GetLogoutUrlHandler),

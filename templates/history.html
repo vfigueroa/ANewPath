@@ -12,8 +12,9 @@
        <th>Date</th>
        <th>Distance</th>
        <th>Mode of Transportation</th>
-       <th>Pounds for CO2 prevented</th>
+       <th>Pounds of CO2 prevented</th>
        <th>Calories Burned</th>
+       <th>Savings</th>
        <th>Comment</th>
       </tr>
       {% for entry in history %}
@@ -24,6 +25,7 @@
        <th>{{entry.transportation}}</th>
        <th>{{entry.co2}}</th>
        <th>{{entry.calories}}</th>
+       <th>${{entry.cost}}</th>
        <th>{{entry.comment}}</th>
        {% endfor %}
       </tr>

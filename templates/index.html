@@ -4,6 +4,9 @@
     <link rel=stylesheet type="text/css" href=/stylesheets/style.css>
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Discover Your Impact</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -11,98 +14,75 @@
     <link rel="stylesheet" href="stylesheets/style.css"> <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-    <script>
-    	/*eslint-disable no-new-object */
-    	/*function sendRequest(destinaionUrl, callbackFunction, parameters) {
-		  var xmlHttp = new XMLHttpRequest();
-		  xmlHttp.onreadystatechange = function() {
-		    if (xmlHttp.readyState === 4) {
-		      console.log("Response Text:\n" + xmlHttp.responseText);
-		      var result = JSON.parse(xmlHttp.responseText);
-		      if (result.error) {
-		        document.getElementById("errorarea").innerHTML = result.error;
-		      }
-		      callbackFunction(result);
-		    }
-	      }
-
-		  var paramString = '';
-		  for (var param in parameters) {
-		    paramString += param + '=' + escape(parameters[param]) + '&';
-		  }
-
-		  xmlHttp.open('POST', destinaionUrl);
-		  xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		  xmlHttp.send(paramString);
-		}
-		function getUser() {
-		  sendRequest('/user', function(result){
-		    if (result.user) {
-		      console.log('logged in');
-		      sendRequest('/logout', function(result) {
-		        var logoutlink = '<a href=' + result.url + '>Click Here to Log Out</a>';
-		        document.getElementById('messagearea').innerHTML = logoutlink;
-	     	  }, new Object());
-		    } else {
-		      sendRequest('/login', function(result) {
-		        var loginlink = '<a href=' + result.url + '>Click Here to Log In</a>';
-		        document.getElementById('messagearea').innerHTML = loginlink;
-		      }, new Object());
-		    }
-		  }, new Object());
-		}
-		getUser();*/
-	</script>
   </head>
   <body>
     {% include 'templates/nav.html'%}
-  <!--
-  {% block nav %}
-    <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand" href="#">Discover Your Impact</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          {% if email %}
-          <a class="nav-item nav-link active" href="/home">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="/chat">Chat</a>
-          <a class="nav-item nav-link" href="/history">History</a>
-          <a class="nav-item nav-link disabled" href="/logout">Log Out</a>
-          {% else %}
-          <a class="nav-item nav-link" href="/login">Login</a>
-          <a class="nav-item nav-link" href="/about">About</a>
-          {% endif %}
-        </div>
-      </div>
-    </nav>
-{% endblock %}
--->
-<!--
-    <ul style="float:center">
-      <li><a class="active" href="/">HOME</a></li>
-      <li><a href="/report">Report</a></li>
-      <li ><a href="/login">Login</a></li>
-      <li ><a href="/logout">Logout</a></li>
-    </ul>
-    -->
-    <h1><img id="logo" src="images/logo.png">A NEW PATH</h1>
-    <p>The average passenger vehicle emits nearly 4.6 metric tons of carbon dioxide each year.</p>
-    <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
-    <div id="messagearea"></div>
-    {% if email %}
+    <h1><img id="logo" src="images/logo.png" alt="logo">A NEW PATH</h1>
+
+    {% if add %}
     <form id="form" action ="/data" method="post">
-      <input type="number" required=true name="mpg" min="10" placeholder="Your Car's MPG"><br>
-      <input type="number" required=true name="distance" min="0" step=".1" placeholder="Distance"><br>
-      <div id="radio">
-        <input type="radio" name="way" value="walking" checked=true> Walk <br>
-  	    <input type="radio" name="way" value="biking"> Bike <br>
-  	    <input type="radio" name="way" value="running"> Run <br>
+      <input type="number" required name="mpg" min="10" placeholder="Your Car's MPG"><br>
+      <input type="number" required name="distance" min=".1" step=".1" placeholder="Distance"><br>
+      <input type="number" required name="cost" min=".01" max='6' step=".01" placeholder="Cost per Gal of Gas"><br>
+      <div id='radio'>
+        <select name="way" required form="form">
+  	     <option value="walking"> Walk</option><br>
+  	     <option value="biking"> Bike</option><br>
+  	     <option value="running"> Run</option><br>
+         <option value="taking the train"> Train</option><br>
+         <option value="taking the bus"> Bus</option><br>
+         <option value="carpooling"> Carpooling</option><br>
+        </select>
       </div>
-  	  <textarea type="text" required=true name="comment" placeholder="Add a comment"></textarea><br>
+  	  <textarea type="text" required name="comment" placeholder="Add a Discription"></textarea><br>
   	  <input id="button" type="submit" value="Submit">
   	</form>
+    {% else %}
+    <p id="quote">"We won't have a society if we destroy the environment."</br>-Margaret Mead</p><br>
+    <img id="footprints" src="images/footprints.gif" alt="logo"><br>
+    <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
+    <div id="messagearea"></div>
+    <div class="w3-container">
+
+    <h2>IMPACTS:</h2>
+    <button onclick="myFunction('butt1')" class="w3-btn w3-block" style>#1</button>
+    <div id="butt1" class="w3-hide w3-container w3-center w3-pale-Gold">
+      <p1>Running keeps your body in shape, and the environment cleaner.</p1>
+    </div>
+
+    <button onclick="myFunction('butt2')" class="w3-btn w3-block">#2</button>
+    <div id="butt2" class="w3-hide w3-container w3-center w3-pale-Tomato">
+      <p1>Walking just half a kilometer everyday to school saves about 500kg of greenhouse pollution.</p1>
+    </div>
+
+    <button onclick="myFunction('butt3')" class="w3-btn w3-block">#3</button>
+    <div id="butt3" class="w3-hide w3-container w3-center w3-pale-CornflowerBlue">
+      <p1>Biking one mile, cuts one pound of CO2.</p1>
+    </div>
+
+    </div>
+    <script>
+    function myFunction(id) {
+        var x = document.getElementById(id);
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+    </script>
+    <br>
+    <div class="container">
+      <img src="images/background.png" alt="bg" style="width:100%;opacity: 0.5;border-radius: 75%">
+
+    <div class="centered" id="tips">TIPS:
+        <ul>
+          <li>Discover safe pathways and routes to your destination beforehand</li>
+          <li>Purchase a pair of comfortable shoes</li>
+          <li>If your workplace or school is too far, try carpooling with others</li>
+        </ul>
+      </div>
+    </div>
     {% endif %}
   </body>
 </html>
