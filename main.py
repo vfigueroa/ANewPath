@@ -4,7 +4,6 @@ import datetime
 import logging
 import jinja2
 import os
-import time
 from time import sleep
 
 from google.appengine.ext import ndb
@@ -188,7 +187,7 @@ class ViewFeedHandler(webapp2.RequestHandler):
             comment.put()
             #log.user_comments.append(comment.key)
             #self.response.write(comment.email +" said "+ comment.text)
-        time.sleep(3)
+        sleep(.5)
         self.redirect("/feed")
 
     def to_dict(self):
