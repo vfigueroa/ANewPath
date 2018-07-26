@@ -3,15 +3,80 @@
 		<title>Your Impact</title>
 	</head>
 	<link rel=stylesheet type="text/css" href=/stylesheets/style.css>
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:700" rel="stylesheet">
 	<body>
 	{% include 'templates/nav.html' %}
 		<p id="about">Welcome to A New Path! We strive to motivate people to be more green by showing them their impact on the environment.
 			 Simply taking another mode of transportation rather than driving can make a BIG difference.
 			 Our feed page allows users to see other peoples commutes and hopefuly inspire them even more!
-			 Leader Board comming soon to start some friendly competition</p>
+			 Leader Board comming soon to start some friendly competition.</p>
 		<br>
-		<h3>About the developers</h3>
-		<p>We are a team of three incoming freshman at Boston Univeristy, Texas A&M and University of Califonia at Riverside.
-			We built this app after attending an intensive three week program at Google in Pittsburgh Pensilvanya.</p>
+
+		<style>
+.container {
+  position: relative;
+  width: 200px;
+}
+
+.image {
+	display: flex;
+  width: 100%;
+	flex-wrap: wrap;
+	flex: 0 0 100%;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: DarkSeaGreen;
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: .5s ease;
+}
+
+.container:hover .overlay {
+  height: 100%;
+}
+
+.text {
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+</style>
+
+<div class="container">
+	<img src="images/vic.jpg" alt="victor" class="image">
+		<div class="overlay">
+			<div class="text" style="font-family: 'Amatic SC', cursive;text-align: center;font-size:35px">Victor Figueroa</div>
+		</div>
+</div>
+<div class="container">
+	<img src="images/alex.jpg" alt="alex" class="image">
+		<div class="overlay">
+			<div class="text" style="font-family: 'Amatic SC', cursive;text-align: center;font-size:40px">Alex Wu</div>
+		</div>
+	</div>
+<div class="container">
+	<img src="images/gem.jpg" alt="gem" class="image">
+		<div class="overlay">
+			<div class="text" style="font-family: 'Amatic SC', cursive;text-align: center;font-size:35px">Gemma Raymundo</div>
+		</div>
+</div>
+
+<br><h3 style="font-family: 'Amatic SC', cursive; font-size:60px; text-align: center;">About the developers</h3>
+<p>We are a team of three incoming freshman at Boston Univeristy, Texas A&M and University of Califonia at Riverside.
+	We built this app after attending an intensive three week program at Google in Pittsburgh Pensilvanya.</p><br>
+
+
 	</body>
 </html>
