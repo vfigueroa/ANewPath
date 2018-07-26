@@ -144,3 +144,7 @@ p1{
 input {
   width: 300px;
 }
+
+#about {
+  margin-top: 5%;
+}

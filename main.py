@@ -135,8 +135,17 @@ class ViewHistoryHandler(webapp2.RequestHandler):
         email = get_current_user_email()
         if email:
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
+            total_distance = 0
+            total_co2 = 0
+            total_savings = 0
+            total_calories = 0
+            for item in q:
+                total_distance += item.distance
+                total_co2 += item.co2
+                total_savings += item.cost
+                total_calories += item.calories
             template = JINJA_ENVIRONMENT.get_template('templates/history.html')
-            self.response.write(template.render(history=q, email=email))
+            self.response.write(template.render(history=q, email=email, total_distance=total_distance, total_savings=total_savings, total_co2=total_co2, total_calories=total_calories))
         else:
             print "hi"
     #add in other attributes of the Log class
