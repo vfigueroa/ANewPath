@@ -5,7 +5,6 @@ import logging
 import jinja2
 import os
 import time
-
 from time import sleep
 
 from google.appengine.ext import ndb
@@ -158,9 +157,7 @@ class Log(ndb.Model):
     comment = ndb.StringProperty(required=True)
     #user_comments = ndb.KeyProperty(
       #Comment, repeated=True)
-
     cost = ndb.FloatProperty(required=True)
-
 
 class ViewFeedHandler(webapp2.RequestHandler):
     def get(self):

@@ -1,8 +1,6 @@
 <html>
   <head>
-    <style>
-
-    </style>
+    <title>History</title>
   </head>
   <body>
   {% include 'templates/nav.html' %}
@@ -19,15 +17,25 @@
       </tr>
       {% for entry in history %}
       <tr>
-       <th>{{entry.email}}</th>
-       <th>{{entry.timestamp[0:10]}}</th>
-       <th>{{entry.distance}}</th>
-       <th>{{entry.transportation}}</th>
-       <th>{{entry.co2}}</th>
-       <th>{{entry.calories}}</th>
-       <th>${{entry.cost}}</th>
-       <th>{{entry.comment}}</th>
+       <td>{{entry.email}}</td>
+       <td>{{entry.timestamp[0:10]}}</td>
+       <td>{{entry.distance}}</td>
+       <td>{{entry.transportation}}</td>
+       <td>{{entry.co2}}</td>
+       <td>{{entry.calories}}</td>
+       <td>${{entry.cost}}</td>
+       <td>{{entry.comment}}</td>
        {% endfor %}
+      </tr>
+      <tr>
+       <td></td>
+       <td></td>
+       <td>Total Distance miles</td>
+       <td></td>
+       <td>Total CO2 prevented {{cost}}lbs</td>
+       <td>Total Calories {{cost}}Cals</td>
+       <td>Total Savings ${{cost}}</td>
+       <td></td>
       </tr>
  </table>
   </body>

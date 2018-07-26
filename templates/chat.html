@@ -37,25 +37,20 @@
           <br>
           <li style="font-family: 'Oswald', sans-serif;font-size: 20px;"> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp[0:16]}}</li>
           </br>
-<<<<<<< HEAD
           <ul id="commentBlock-{{item.key.id()}}">
           {% for comment in comments%}
             {% if comment.logId == item.key.id()|string %}
+            <br>
             <li> {{comment.email}} said {{comment.text}}</li>
             <br>
             {% endif %}
           {% endfor %}
         </ul>
-          <form method="post">
+          <form method="post" style="font-family: 'Oswald', sans-serif;font-size: 15px;">
             Comment: <br>
             <input id="comment{{item.key.id()}}" type="text" name="text">
             <input type="hidden" name="logId" value="{{item.key.id()}}">
             <input type="submit" value="Enter">
-=======
-          <form style="font-family: 'Oswald', sans-serif;font-size: 15px;">
-            <br>Comment:
-            <input type="text" name="Comment">
->>>>>>> 39f078994d80c2d12ef59b08300a47555f511576
           </form>
       {% endfor %}
       <!-- maybe we could share or show the route that you took this by linking it to another page. ??-->
