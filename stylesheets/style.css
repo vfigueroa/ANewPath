@@ -61,17 +61,17 @@ table {
 }
 
 td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid Honeydew;
     text-align: left;
     padding: 8px;
 }
 
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color: DarkSeaGreen;
 }
 
 #form {
-  margin-left: 45%;
+    margin-left: 45%;
 }
 
 #logo {
@@ -114,13 +114,4 @@ p1{
   font-size: 50px;
   font-weight: bold;
   font-family: 'Amatic SC', cursive;
-}
-
-form {
-    /*background-image: url(https://images.pexels.com/photos/56875/tree-dawn-nature-bucovina-56875.jpeg?auto=compress&cs=tinysrgb&h=350);
-    width: 500px;
-    height: 300px;
-    border: 5px solid #c3c3c3;
-    */
-   font-size: 30px;
 }

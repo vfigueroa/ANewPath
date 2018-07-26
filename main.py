@@ -16,10 +16,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class GetLoginUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
         self.redirect(users.create_login_url('/home'))
-#        result = {
-#        'url' : users.create_login_url('/')
-#        }
-#        send_json(self, result)
+
 
 def send_json(request_handler, props):
     request_handler.response.content_type = 'application/json'
@@ -39,7 +36,6 @@ class GetUserHandler(webapp2.RequestHandler):
 class GetHomePageHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
-        print 'this renders the jinja template'
         template = JINJA_ENVIRONMENT.get_template('templates/index.html')
         self.response.write(template.render(email=email))
 
@@ -69,10 +65,6 @@ def get_current_user_transportation():
 class GetLogoutUrlHandler(webapp2.RequestHandler):
     def dispatch(self):
         self.redirect(users.create_logout_url('/home'))
-#        result = {
-#        'url' : users.create_logout_url('/logout')
-#        }
-#        send_json(self, result)
 
 
 class LogDataHandler(webapp2.RequestHandler):
@@ -94,14 +86,12 @@ class LogDataHandler(webapp2.RequestHandler):
             else:
                 calories = 0
             #print co2
-            log = Log(email=email, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
+            log = Log(email=email, comment=comment, transportation=transportation, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
             #print log
             log.put()
             self.redirect('/report')
         else:
             self.redirect('/login')
-            #log['error'] = 'User is not logged in.'
-
 
 
 class ViewReportHandler(webapp2.RequestHandler):
@@ -109,12 +99,9 @@ class ViewReportHandler(webapp2.RequestHandler):
         email = get_current_user_email()
         if email:
             q = Log.query().filter(Log.email == email).order(-Log.timestamp)
-#            for item in q:
-#                print item
-
             log = q.get()
             if log:
-                params = {'transportation': log.transportation ,'distance': log.distance,'calories': log.calories, 'co2': log.co2, 'email': email}
+                params = {'transportation': log.transportation, 'comment': log.comment, 'timestamp': log.timestamp, 'distance': log.distance,'calories': log.calories, 'co2': log.co2, 'email': email}
                 template = JINJA_ENVIRONMENT.get_template('templates/report.html')
                 self.response.write(template.render(params))
             else:
@@ -127,8 +114,7 @@ class ViewReportHandler(webapp2.RequestHandler):
             pass
 
 
-class ViewHistoryHandler(webapp2.RequestHandler): #refer to Tim's code in how he
-#stored all the data instead of looping through the entire query
+class ViewHistoryHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         if email:
@@ -146,11 +132,18 @@ class Log(ndb.Model):
     transportation = ndb.StringProperty(required=True)
     co2 = ndb.FloatProperty(required=True)
     calories = ndb.FloatProperty(required=True)
+    comment = ndb.StringProperty(required=True)
 
-# class Msg(ndb.Model):
-#     email = ndb.StringProperty(required=True)
-#     text = ndb.StringProperty(required=True)
-#
+class ViewFeedHandler(webapp2.RequestHandler):
+    def get(self):
+        email = get_current_user_email()
+        if email:
+            q = Log.query().order(-Log.timestamp).fetch(10)
+            # for item in q:
+            #     self.response.write("<br>")
+            #     self.response.write(item)
+            template = JINJA_ENVIRONMENT.get_template('templates/chat.html')
+            self.response.write(template.render(feed=q, email=email))
 
     def to_dict(self):
         log = {
@@ -159,7 +152,8 @@ class Log(ndb.Model):
                 'timestamp': self.timestamp.strftime('%Y-%m-%d %I:%M:%S'),
                 'transportation': self.transportation,
                 'co2': self.co2,
-                'calories': self.calories
+                'calories': self.calories,
+                'comment': self.comment
             }
         return log
 
@@ -172,5 +166,5 @@ app = webapp2.WSGIApplication([
 	('/data', LogDataHandler),
 	('/report', ViewReportHandler), #view your most recent accomplishment
 	('/history', ViewHistoryHandler), #views all the progress
-    #('/feed', ViewChatHandler)
+    ('/feed', ViewFeedHandler),
 ], debug=True)
