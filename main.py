@@ -4,6 +4,7 @@ import datetime
 import logging
 import jinja2
 import os
+from time import sleep
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
@@ -90,7 +91,7 @@ class LogDataHandler(webapp2.RequestHandler):
             transportation = self.request.get('way')
             comment = self.request.get('comment')
             co2 = round(20.00 / mpg * distance, 2)
-            cost = float(self.request.get('cost')) * (distance / mpg)
+            cost = round(float(self.request.get('cost')) * (distance / mpg), 2)
             if transportation == "running":
                 calories = distance * 100
             elif transportation == "walking":
@@ -103,6 +104,7 @@ class LogDataHandler(webapp2.RequestHandler):
             log = Log(email=email, comment=comment, transportation=transportation, cost= cost, co2=co2, calories=calories, distance=distance, timestamp=str(datetime.datetime.now()))
             #print log
             log.put()
+            sleep(.5)
             self.redirect('/report')
         else:
             self.redirect('/login')
@@ -120,7 +122,7 @@ class ViewReportHandler(webapp2.RequestHandler):
                 self.response.write(template.render(params))
             else:
                 # redirect to the data form
-                self.redirect("/data")
+                self.redirect("/add")
                 print 'redirect to the data form'
                 pass
         else:

@@ -140,3 +140,7 @@ p1{
 #quote {
   margin-left: 25%;
 }
+
+input {
+  width: 300px;
+}
