@@ -32,12 +32,23 @@ class GetUserHandler(webapp2.RequestHandler):
             result['error'] = 'User is not logged in.'
         print(Log.query().fetch())
 
+class GetAboutPage(webapp2.RequestHandler):
+    def dispatch(self):
+        template = JINJA_ENVIRONMENT.get_template('templates/about.html')
+
 
 class GetHomePageHandler(webapp2.RequestHandler):
     def get(self):
         email = get_current_user_email()
         template = JINJA_ENVIRONMENT.get_template('templates/index.html')
-        self.response.write(template.render(email=email))
+        self.response.write(template.render(email=email, add=False))
+
+
+class GetAddPageHandler(webapp2.RequestHandler):
+    def get(self):
+        email = get_current_user_email()
+        template = JINJA_ENVIRONMENT.get_template('templates/index.html')
+        self.response.write(template.render(email=email, add=True))
 
 
 def get_current_user_email():
@@ -160,6 +171,8 @@ class ViewFeedHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
 	('/', GetUserHandler),
 	('/home', GetHomePageHandler),
+    ('/about', GetAboutPage),
+    ('/add', GetAddPageHandler),
 	('/user', GetUserHandler),
 	('/login', GetLoginUrlHandler),
 	('/logout', GetLogoutUrlHandler),

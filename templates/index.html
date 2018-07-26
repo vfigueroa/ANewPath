@@ -14,85 +14,22 @@
     <link rel="stylesheet" href="stylesheets/style.css"> <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-    <script>
-    	/*eslint-disable no-new-object */
-    	/*function sendRequest(destinaionUrl, callbackFunction, parameters) {
-		  var xmlHttp = new XMLHttpRequest();
-		  xmlHttp.onreadystatechange = function() {
-		    if (xmlHttp.readyState === 4) {
-		      console.log("Response Text:\n" + xmlHttp.responseText);
-		      var result = JSON.parse(xmlHttp.responseText);
-		      if (result.error) {
-		        document.getElementById("errorarea").innerHTML = result.error;
-		      }
-		      callbackFunction(result);
-		    }
-	      }
-
-		  var paramString = '';
-		  for (var param in parameters) {
-		    paramString += param + '=' + escape(parameters[param]) + '&';
-		  }
-
-		  xmlHttp.open('POST', destinaionUrl);
-		  xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		  xmlHttp.send(paramString);
-		}
-		function getUser() {
-		  sendRequest('/user', function(result){
-		    if (result.user) {
-		      console.log('logged in');
-		      sendRequest('/logout', function(result) {
-		        var logoutlink = '<a href=' + result.url + '>Click Here to Log Out</a>';
-		        document.getElementById('messagearea').innerHTML = logoutlink;
-	     	  }, new Object());
-		    } else {
-		      sendRequest('/login', function(result) {
-		        var loginlink = '<a href=' + result.url + '>Click Here to Log In</a>';
-		        document.getElementById('messagearea').innerHTML = loginlink;
-		      }, new Object());
-		    }
-		  }, new Object());
-		}
-		getUser();*/
-	</script>
   </head>
   <body>
     {% include 'templates/nav.html'%}
-  <!--
-  {% block nav %}
-    <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand" href="#">Discover Your Impact</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          {% if email %}
-          <a class="nav-item nav-link active" href="/home">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="/chat">Chat</a>
-          <a class="nav-item nav-link" href="/history">History</a>
-          <a class="nav-item nav-link disabled" href="/logout">Log Out</a>
-          {% else %}
-          <a class="nav-item nav-link" href="/login">Login</a>
-          <a class="nav-item nav-link" href="/about">About</a>
-          {% endif %}
-        </div>
-      </div>
-    </nav>
-{% endblock %}
--->
-<!--
-    <ul style="float:center">
-      <li><a class="active" href="/">HOME</a></li>
-      <li><a href="/report">Report</a></li>
-      <li ><a href="/login">Login</a></li>
-      <li ><a href="/logout">Logout</a></li>
-    </ul>
-    -->
     <h1><img id="logo" src="images/logo.png" alt="logo">A NEW PATH</h1>
     <p>"WE WON'T HAVE A SOCIETY IF WE DESTROY THE ENVIRONMENT"</br>-Margaret Mead</p><br>
-
+    {% if add %}
+    <form id="form" action ="/data" method="post">
+      <input type="number" name="mpg" min="10" placeholder="Your Car's MPG"><br>
+      <input type="number" name="distance" min="0" step=".1" placeholder="Distance"><br>
+  	  <input type="radio" name="way" value="walking"> Walk<br>
+  	  <input type="radio" name="way" value="biking"> Bike<br>
+  	  <input type="radio" name="way" value="running"> Run<br>
+  	  <textarea type="text" name="comment" placeholder="Add a comment"></textarea><br>
+  	  <input id="button" type="submit" value="Submit">
+  	</form>
+    {% else %}
     <img id="footprints" src="images/footprints.gif" alt="logo"><br>
     <div id="errorarea" style="color: red; font-weight: bold; text-align: center;"></div>
     <div id="messagearea"></div>
@@ -125,35 +62,11 @@
         }
     }
     </script>
-
-
-    <br><style>
-    .container {
-        position: relative;
-        text-align: center;
-        color: white;
-    }
-
-    .centered {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    </style>
+    <br>
     <div class="container">
       <img src="images/background.png" alt="bg" style="width:100%;opacity: 0.5;border-radius: 75%">
-    <div class="centered" id="tips">BLAHBAJGKESN</div>
+    <div class="centered" id="tips">test</div>
     </div>
-
-    <br><form id="form" action ="/data" method="post">
-      <input type="number" name="mpg" min="10" placeholder="Your Car's MPG"><br>
-      <input type="number" name="distance" min="0" step=".1" placeholder="Distance"><br>
-  	  <input type="radio" name="way" value="walking"> Walk<br>
-  	  <input type="radio" name="way" value="biking"> Bike<br>
-  	  <input type="radio" name="way" value="running"> Run<br>
-  	  <textarea type="text" name="comment" placeholder="Add a comment"></textarea><br>
-  	  <input id="button" type="submit" value="Submit">
-  	</form>
+    {% endif %}
   </body>
 </html>
