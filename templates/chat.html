@@ -34,10 +34,11 @@
     {% include 'templates/nav.html' %}
       <ul id="feed">
       {% for item in feed %}
+      <div id="element">
           <br>
           <li style="font-family: 'Oswald', sans-serif;font-size: 20px;"> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp[0:16]}}</li>
           </br>
-          <ul id="commentBlock-{{item.key.id()}}">
+          <ul id="feed" id="commentBlock-{{item.key.id()}}">
           {% for comment in comments%}
             {% if comment.logId == item.key.id()|string %}
             <br>
@@ -53,6 +54,7 @@
             <input type="submit" value="Enter">
           </form>
       {% endfor %}
+        </div>
       <!-- maybe we could share or show the route that you took this by linking it to another page. ??-->
       </ul>
   </body>

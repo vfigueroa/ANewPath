@@ -148,3 +148,16 @@ input {
 #about {
   margin-top: 5%;
 }
+
+h3 {
+  text-align: center;
+  margin-bottom: 2%;
+}
+
+#element {
+  border-top: 3px solid DarkSeaGreen;
+}
+
+#feed {
+  list-style-type: none;
+}
