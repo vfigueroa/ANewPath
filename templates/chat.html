@@ -6,7 +6,7 @@
       <ul id="feed">
       {% for item in feed %}
           <br>
-          <li> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp}}</li>
+          <li> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp[0:16]}}</li>
           </br>
           <form>
             Comment: <br>
