@@ -21,7 +21,7 @@ li a {
     text-decoration: none;
 }
 
-a:hover {
+.nav-link:hover {
     background-color: DarkGreen;
 }
 
@@ -150,7 +150,15 @@ input {
   margin-top: 5%;
 }
 
-#feed{
-  border: 100px;
-  border-color: 
+h3 {
+  text-align: center;
+  margin-bottom: 2%;
+}
+
+#element {
+  border-top: 3px solid DarkSeaGreen;
+}
+
+#feed {
+  list-style-type: none;
 }
