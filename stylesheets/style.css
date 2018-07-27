@@ -10,6 +10,7 @@ nav {
 
 li {
     float: left;
+    border: 5px;
 }
 
 li a {
@@ -147,4 +148,9 @@ input {
 
 #about {
   margin-top: 5%;
+}
+
+#feed{
+  border: 100px;
+  border-color: 
 }
