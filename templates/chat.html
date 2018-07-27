@@ -36,7 +36,7 @@
       {% for item in feed %}
       <div id="element">
           <br>
-          <li style="font-family: 'Oswald', sans-serif;font-size: 20px;"> {{item.email}} went {{item.distance}} by {{ item.transportation }} at {{item.timestamp[0:16]}}</li>
+          <li style="font-family: 'Oswald', sans-serif;font-size: 20px;"> {{item.email}} went {{item.distance}} miles by {{ item.transportation }} at {{item.timestamp[0:16]}}</li>
           </br>
           <ul id="feed" id="commentBlock-{{item.key.id()}}">
           {% for comment in comments%}
