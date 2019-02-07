@@ -1,6 +1,6 @@
 # This is my CSSI Project
 
-This is my attempt to make web app at CSSI
+WEB APP developed at GOOGLE Pittsburgh for CSSI 
 
 #Group
 Gemma, Alex and Victor
